@@ -51,7 +51,7 @@ export async function GET(
   const contentType = bill.fileType || "application/octet-stream";
   const disposition = `inline; filename="${(bill.fileName || "bill").replace(/"/g, "%22")}"`;
 
-  return new NextResponse(buffer, {
+  return new NextResponse(new Uint8Array(buffer), {
     headers: {
       "Content-Type": contentType,
       "Content-Disposition": disposition,
