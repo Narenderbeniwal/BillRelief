@@ -10,6 +10,12 @@
 #    Name: AZURE_CREDENTIALS
 #    Value: {"clientId":"<app-client-id>","clientSecret":"<secret-value>","subscriptionId":"<subscription-id>","tenantId":"<directory-tenant-id>"}
 #    (Find subscription ID and tenant ID in Azure Portal → Microsoft Entra ID → Overview / Subscriptions)
+#
+# For PayPal and NextAuth to work on the deployed site, add these GitHub Secrets (they are inlined at build time):
+#   NEXT_PUBLIC_PAYPAL_CLIENT_ID   - your PayPal client ID
+#   NEXT_PUBLIC_PAYPAL_MODE       - "live" or "sandbox"
+#   NEXTAUTH_URL                  - e.g. https://billrelief.azurewebsites.net (optional; has default)
+#   NEXTAUTH_SECRET               - same value as in Azure App Service config (optional for build; required at runtime via Azure)
 
 name: Deploy to Azure App Service
 
@@ -39,13 +45,25 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
+      # Fail early if PayPal is not configured (NEXT_PUBLIC_* are inlined at build time; Azure env cannot fix this)
+      - name: Check required secrets for deployment
+        run: |
+          if [ -z "${{ secrets.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}" ]; then
+            echo "::error::NEXT_PUBLIC_PAYPAL_CLIENT_ID is not set. Add it in GitHub → Settings → Secrets and variables → Actions → New repository secret. Without it, PayPal will show 'not configured' on the deployed site."
+            exit 1
+          fi
+          echo "PayPal client ID secret is set."
+
+      # NEXT_PUBLIC_* vars are inlined at build time; add them as GitHub Secrets and reference below
       - name: Build
         run: npm run build
         env:
           SKIP_ENV_VALIDATION: 1
           DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy?schema=public"
-          NEXTAUTH_URL: "https://placeholder.azurewebsites.net"
-          NEXTAUTH_SECRET: "build-time-placeholder"
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL || 'https://billrelief.azurewebsites.net' }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET || 'build-time-placeholder' }}
+          NEXT_PUBLIC_PAYPAL_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}
+          NEXT_PUBLIC_PAYPAL_MODE: ${{ secrets.NEXT_PUBLIC_PAYPAL_MODE || 'sandbox' }}
 
       # Required for deployment (especially with slots). Use service principal.
       # Create in Azure: App registration → Client secret; IAM: Website Contributor for the app.

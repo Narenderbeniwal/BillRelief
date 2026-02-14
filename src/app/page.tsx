@@ -14,6 +14,7 @@ import { TrustedBySection } from "@/components/landing/TrustedBySection";
 import { ProofStatsSection } from "@/components/landing/ProofStatsSection";
 import { SecurityComplianceSection } from "@/components/landing/SecurityComplianceSection";
 import { RiskFreeGuaranteeSection } from "@/components/landing/RiskFreeGuaranteeSection";
+import { TrustedImagesSection } from "@/components/landing/TrustedImagesSection";
 import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
@@ -27,6 +28,7 @@ export default function HomePage() {
         <WhyCompetitorsFail />
         <BillReliefDifference />
         <ProofStatsSection />
+        <TrustedImagesSection />
         <MarketGapSolutions />
         <section id="how-it-works">
           <HowItWorks />

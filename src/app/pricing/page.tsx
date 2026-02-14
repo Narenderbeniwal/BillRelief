@@ -9,6 +9,7 @@ import { PricingStickyCTA } from "@/components/pricing/PricingStickyCTA";
 import { PricingMobileCTA } from "@/components/pricing/PricingMobileCTA";
 import { pricingTiers } from "@/lib/pricingData";
 import { SiteHeader } from "@/components/landing/SiteHeader";
+import { TrustedImagesSection } from "@/components/landing/TrustedImagesSection";
 
 export default function PricingPage() {
   return (
@@ -29,6 +30,8 @@ export default function PricingPage() {
             </div>
           ))}
         </div>
+
+        <TrustedImagesSection onPricingPage />
 
         <ComparisonTable />
         <TrustSignals />
