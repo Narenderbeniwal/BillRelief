@@ -177,11 +177,7 @@ export function BlogStudioLeftSidebar() {
                     improveMutation.isPending
                   }
                   onClick={() =>
-                    handleActionClick(
-                      item.label,
-                      // @ts-expect-error action is optional on other items
-                      item.action
-                    )
+                    handleActionClick(item.label, item.action)
                   }
                 >
                   <div className="flex items-start gap-2">
