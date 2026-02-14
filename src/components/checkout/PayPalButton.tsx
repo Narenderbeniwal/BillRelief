@@ -74,7 +74,7 @@ export function PayPalButton({
         style={{ layout: "vertical", color: "gold", shape: "rect", label: "paypal" }}
         createOrder={createOrder}
         onApprove={onApprove}
-        onError={(err) => onError(err.message ?? "PayPal error")}
+        onError={(err) => onError(err && typeof err === "object" && "message" in err ? String((err as { message: unknown }).message) : "PayPal error")}
       />
     </PayPalScriptProvider>
   );
