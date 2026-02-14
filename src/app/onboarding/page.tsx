@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { OnboardingProgressBar } from "@/components/onboarding/ProgressBar";
@@ -12,7 +12,7 @@ const STEP_HIPAA = 1;
 const STEP_TERMS = 2;
 const STEP_PAYMENT = 3;
 
-export default function OnboardingPage() {
+function OnboardingFlow() {
   const searchParams = useSearchParams();
   const pricingTier =
     (searchParams.get("tier") as "free" | "ai-pro" | "expert" | "done-for-you") ||
@@ -75,5 +75,13 @@ export default function OnboardingPage() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center">Loading...</div>}>
+      <OnboardingFlow />
+    </Suspense>
   );
 }

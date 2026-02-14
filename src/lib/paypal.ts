@@ -91,7 +91,8 @@ export async function capturePayPalOrder(orderId: string): Promise<{
   if (!res.ok) {
     return { success: false, status: data.status ?? "CAPTURE_FAILED" };
   }
-  const captureId = data.purchase_units?.[0]?.payments?.captures?.[0]?.id;
+  const payments = data.purchase_units?.[0]?.payments;
+  const captureId = Array.isArray(payments) ? payments[0]?.captures?.[0]?.id : undefined;
   return {
     success: data.status === "COMPLETED",
     captureId,
