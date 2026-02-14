@@ -1,10 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { TRUSTED_IMAGES } from "@/lib/trustedImages";
 import { Button } from "@/components/ui/button";
+
+const PLACEHOLDER_SVG =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><rect fill="#e5e7eb" width="800" height="600"/><rect x="350" y="250" width="100" height="100" rx="8" fill="#9ca3af" opacity="0.6"/><path d="M400 270v60M370 300h60" stroke="#6b7280" stroke-width="8" stroke-linecap="round"/><text x="400" y="400" fill="#6b7280" font-family="sans-serif" font-size="20" text-anchor="middle" font-weight="500">Medical</text></svg>'
+  );
 
 type TrustedImagesSectionProps = {
   /** When true, CTA points to plans on this page instead of /pricing */
@@ -39,15 +44,18 @@ export function TrustedImagesSection({ onPricingPage }: TrustedImagesSectionProp
               transition={{ delay: i * 0.04 }}
               className="group relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-sm transition-shadow hover:shadow-md"
             >
-              <div className="relative aspect-[4/3]">
-                <Image
+              <div className="relative aspect-[4/3] bg-gray-200">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={item.src}
                   alt={item.alt}
-                  fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
-                  quality={80}
+                  decoding="async"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = PLACEHOLDER_SVG;
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
               </div>
