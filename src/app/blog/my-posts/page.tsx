@@ -6,7 +6,7 @@ import { MyPostsClient } from "@/components/blog-platform/MyPostsClient";
 
 export default async function MyPostsPage() {
   const session = await getServerSession(authOptions);
-  if (!session) {
+  if (!session?.user) {
     redirect("/login?callbackUrl=/blog/my-posts");
   }
 

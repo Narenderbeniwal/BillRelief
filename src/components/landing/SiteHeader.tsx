@@ -59,7 +59,7 @@ export function SiteHeader() {
           </Link>
           {status === "loading" ? (
             <span className="text-sm text-muted-foreground">...</span>
-          ) : session ? (
+          ) : session?.user ? (
             <>
               <Button asChild variant="outline" size="sm">
                 <Link href="/blog/write">+ Write Blog Post</Link>
