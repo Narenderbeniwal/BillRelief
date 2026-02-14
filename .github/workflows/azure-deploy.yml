@@ -60,4 +60,3 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: .
-          slot-name: production
