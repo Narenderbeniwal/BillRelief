@@ -1,9 +1,15 @@
 # Deploy BillRelief to Azure App Service (free tier)
-# 1. In Azure: App Service → Get publish profile → copy full XML
-# 2. In GitHub: Repo → Settings → Secrets → Actions → New secret:
-#    Name: AZURE_WEBAPP_PUBLISH_PROFILE
-#    Value: paste the publish profile XML
-# 3. Set AZURE_WEBAPP_NAME below to your app name (e.g. billrelief or billrelief-yourname)
+#
+# Uses Azure Login (service principal). Required for deployment slots.
+#
+# 1. Azure Portal → Microsoft Entra ID → App registrations → New registration
+# 2. Certificates & secrets → New client secret → copy value
+# 3. Subscription → Access control (IAM) → Add role assignment:
+#    Role: Website Contributor (or Contributor), Assignable to: User, group, or service principal → select your app
+# 4. GitHub → Repo → Settings → Secrets and variables → Actions → New repository secret:
+#    Name: AZURE_CREDENTIALS
+#    Value: {"clientId":"<app-client-id>","clientSecret":"<secret-value>","subscriptionId":"<subscription-id>","tenantId":"<directory-tenant-id>"}
+#    (Find subscription ID and tenant ID in Azure Portal → Microsoft Entra ID → Overview / Subscriptions)
 
 name: Deploy to Azure App Service
 
@@ -12,7 +18,7 @@ on:
     branches: [main]
 
 env:
-  AZURE_WEBAPP_NAME: billrelief   # CHANGE THIS to your Azure Web App name
+  AZURE_WEBAPP_NAME: billrelief   # Your Azure Web App name
 
 jobs:
   build-and-deploy:
@@ -41,9 +47,17 @@ jobs:
           NEXTAUTH_URL: "https://placeholder.azurewebsites.net"
           NEXTAUTH_SECRET: "build-time-placeholder"
 
+      # Required for deployment (especially with slots). Use service principal.
+      # Create in Azure: App registration → Client secret; IAM: Website Contributor for the app.
+      # GitHub secret AZURE_CREDENTIALS = {"clientId":"...","clientSecret":"...","subscriptionId":"...","tenantId":"..."}
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: .
+          slot-name: production
