@@ -1,0 +1,49 @@
+# Deploy BillRelief to Azure App Service (free tier)
+# 1. In Azure: App Service → Get publish profile → copy full XML
+# 2. In GitHub: Repo → Settings → Secrets → Actions → New secret:
+#    Name: AZURE_WEBAPP_PUBLISH_PROFILE
+#    Value: paste the publish profile XML
+# 3. Set AZURE_WEBAPP_NAME below to your app name (e.g. billrelief or billrelief-yourname)
+
+name: Deploy to Azure App Service
+
+on:
+  push:
+    branches: [main]
+
+env:
+  AZURE_WEBAPP_NAME: billrelief   # CHANGE THIS to your Azure Web App name
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Build
+        run: npm run build
+        env:
+          SKIP_ENV_VALIDATION: 1
+          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy?schema=public"
+          NEXTAUTH_URL: "https://placeholder.azurewebsites.net"
+          NEXTAUTH_SECRET: "build-time-placeholder"
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: .
