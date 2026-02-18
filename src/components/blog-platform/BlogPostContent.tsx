@@ -77,7 +77,7 @@ export function BlogPostContent({ post, related }: Props) {
   const shareUrl =
     typeof window !== "undefined"
       ? window.location.href
-      : `https://billrelief.com/blog/${post.slug}`;
+      : `https://www.billreliefai.com/blog/${post.slug}`;
   const shareText = encodeURIComponent(post.title);
 
   const handleCopyLink = () => {

@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 import { SiteHeader } from "@/components/landing/SiteHeader";
+import { SiteFooter } from "@/components/landing/SiteFooter";
 import { BlogListingClient } from "@/components/blog-platform/BlogListingClient";
 
 const CATEGORIES = [
@@ -73,11 +74,7 @@ export default async function BlogPage() {
           hasAuth={!!session?.user}
         />
       </main>
-      <footer className="border-t border-gray-200 py-6 text-center text-sm text-muted-foreground bg-white">
-        <div className="container mx-auto px-4">
-          <p>© {new Date().getFullYear()} BillRelief.com. HIPAA Compliant.</p>
-        </div>
-      </footer>
+      <SiteFooter className="border-gray-200 bg-white py-6 pb-8" />
     </div>
   );
 }

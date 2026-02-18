@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { SiteHeader } from "@/components/landing/SiteHeader";
+import { SiteFooter } from "@/components/landing/SiteFooter";
 import { BlogPostContent } from "@/components/blog-platform/BlogPostContent";
 
 export default async function BlogPostPage({
@@ -82,11 +83,7 @@ export default async function BlogPostPage({
           publishedAt: r.publishedAt ?? undefined,
         }))}
       />
-      <footer className="border-t border-gray-200 py-6 text-center text-sm text-muted-foreground bg-white">
-        <div className="container mx-auto px-4">
-          <p>© {new Date().getFullYear()} BillRelief.com. HIPAA Compliant.</p>
-        </div>
-      </footer>
+      <SiteFooter className="border-gray-200 bg-white py-6 pb-8" />
     </div>
   );
 }

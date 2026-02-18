@@ -15,6 +15,7 @@ import { ProofStatsSection } from "@/components/landing/ProofStatsSection";
 import { SecurityComplianceSection } from "@/components/landing/SecurityComplianceSection";
 import { RiskFreeGuaranteeSection } from "@/components/landing/RiskFreeGuaranteeSection";
 import { TrustedImagesSection } from "@/components/landing/TrustedImagesSection";
+import { SiteFooter } from "@/components/landing/SiteFooter";
 import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
@@ -55,14 +56,7 @@ export default function HomePage() {
         </section>
       </main>
       <StickyMobileCTA />
-      <footer className="border-t py-8 text-center text-sm text-muted-foreground pb-20 sm:pb-8">
-        <div className="container mx-auto px-4">
-          <p>© {new Date().getFullYear()} BillRelief.com. HIPAA Compliant. All rights reserved.</p>
-          <p className="mt-2 text-xs text-gray-500">
-            Transparent pricing · No savings, no fee options · Encrypted document handling
-          </p>
-        </div>
-      </footer>
+      <SiteFooter tagline="Transparent pricing · No savings, no fee options · Encrypted document handling" />
     </div>
   );
 }

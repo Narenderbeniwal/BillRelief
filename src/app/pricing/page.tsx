@@ -9,6 +9,7 @@ import { PricingStickyCTA } from "@/components/pricing/PricingStickyCTA";
 import { PricingMobileCTA } from "@/components/pricing/PricingMobileCTA";
 import { pricingTiers } from "@/lib/pricingData";
 import { SiteHeader } from "@/components/landing/SiteHeader";
+import { SiteFooter } from "@/components/landing/SiteFooter";
 import { TrustedImagesSection } from "@/components/landing/TrustedImagesSection";
 
 export default function PricingPage() {
@@ -41,26 +42,28 @@ export default function PricingPage() {
       <PricingStickyCTA />
       <PricingMobileCTA />
 
-      <footer className="border-t border-gray-200 py-8 pb-24 text-center text-sm text-muted-foreground bg-white md:pb-8">
-        <div className="container mx-auto px-4">
-          <div className="mb-4 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-gray-500">
+      <SiteFooter
+        className="border-gray-200 bg-white pb-24 md:pb-8"
+        top={
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-gray-500">
             <span className="inline-flex items-center gap-1">🔒 SSL Secured</span>
             <span className="inline-flex items-center gap-1">🛡️ HIPAA-aligned</span>
             <span className="inline-flex items-center gap-1">💳 PayPal · Card</span>
           </div>
-          <p>© {new Date().getFullYear()} BillRelief.com. HIPAA Compliant. All rights reserved.</p>
-          <Link href="/" className="mt-2 inline-block text-[#0F4C81] hover:underline">
-            Back to Home
-          </Link>
-          <p className="mt-2">
-            <Link href="/#how-it-works" className="text-[#0F4C81] hover:underline">How it works</Link>
-            {" · "}
-            <Link href="/#testimonials" className="text-[#0F4C81] hover:underline">Reviews</Link>
-            {" · "}
-            <Link href="/blog" className="text-[#0F4C81] hover:underline">Blog</Link>
-          </p>
-        </div>
-      </footer>
+        }
+        links={
+          <>
+            <Link href="/" className="inline-block text-[#0F4C81] hover:underline">Back to Home</Link>
+            <p className="mt-2">
+              <Link href="/#how-it-works" className="text-[#0F4C81] hover:underline">How it works</Link>
+              {" · "}
+              <Link href="/#testimonials" className="text-[#0F4C81] hover:underline">Reviews</Link>
+              {" · "}
+              <Link href="/blog" className="text-[#0F4C81] hover:underline">Blog</Link>
+            </p>
+          </>
+        }
+      />
     </div>
   );
 }
