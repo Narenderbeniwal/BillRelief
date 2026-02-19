@@ -31,7 +31,8 @@ export function DashboardNav({
         size="sm"
         onClick={() =>
           signOut({
-            callbackUrl: typeof window !== "undefined" ? `${window.location.origin}/` : "/",
+            callbackUrl: "/login",
+            redirect: true,
           })
         }
       >
