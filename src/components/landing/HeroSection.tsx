@@ -6,6 +6,8 @@ import { Zap, Check, ShieldCheck, BadgeDollarSign, Users, ArrowRight, CircleDoll
 import { Button } from "@/components/ui/button";
 import { CompetitorComparisonCard } from "./CompetitorComparisonCard";
 import { InteractiveSavingsCalculator } from "./InteractiveSavingsCalculator";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { SECTION_IMAGES } from "@/lib/trustedImages";
 
 export function HeroSection() {
   return (
@@ -127,6 +129,20 @@ export function HeroSection() {
             transition={{ delay: 0.25 }}
             className="flex flex-col gap-6"
           >
+            <div className="grid grid-cols-2 gap-3">
+              {SECTION_IMAGES.map((img, i) => (
+                <div key={i} className="relative aspect-[4/3] overflow-hidden rounded-xl border border-gray-200 shadow-sm">
+                  <ImageWithFallback
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    sizes="(max-width: 1024px) 40vw, 280px"
+                    className="object-cover"
+                    quality={75}
+                  />
+                </div>
+              ))}
+            </div>
             <CompetitorComparisonCard />
             <InteractiveSavingsCalculator />
           </motion.div>

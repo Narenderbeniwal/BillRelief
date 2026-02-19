@@ -4,6 +4,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { SECTION_IMAGES } from "@/lib/trustedImages";
 
 export function PricingHeader({ showMonthlyToggle = true }: { showMonthlyToggle?: boolean }) {
   return (
@@ -39,6 +41,20 @@ export function PricingHeader({ showMonthlyToggle = true }: { showMonthlyToggle?
         <MessageCircle className="h-3.5 w-3.5" />
         Need help choosing? See patient stories
       </Link>
+      <div className="mt-6 flex justify-center gap-4">
+        {SECTION_IMAGES.map((img, i) => (
+          <div key={i} className="relative h-24 w-36 overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+            <ImageWithFallback
+              src={img.src}
+              alt={img.alt}
+              fill
+              sizes="144px"
+              className="object-cover"
+              quality={75}
+            />
+          </div>
+        ))}
+      </div>
       {showMonthlyToggle && (
         <div className="mt-6 inline-flex rounded-xl border border-gray-200 bg-white p-1 shadow-sm">
           <button

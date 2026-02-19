@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Upload, Search, FileCheck, Handshake } from "lucide-react";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { SECTION_IMAGES } from "@/lib/trustedImages";
 
 const steps = [
   {
@@ -44,6 +46,27 @@ export function HowItWorks() {
             Every recommendation is documented and reviewed before action
           </p>
         </motion.div>
+        <div className="mb-10 flex justify-center gap-4">
+          {SECTION_IMAGES.map((img, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="relative hidden h-32 w-48 overflow-hidden rounded-xl border border-gray-200 shadow-sm sm:block"
+            >
+              <ImageWithFallback
+                src={img.src}
+                alt={img.alt}
+                fill
+                sizes="240px"
+                className="object-cover"
+                quality={75}
+              />
+            </motion.div>
+          ))}
+        </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, idx) => (
             <motion.div

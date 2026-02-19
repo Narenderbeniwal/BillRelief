@@ -56,8 +56,11 @@ export function MyPostsClient() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">My Blog Posts</h1>
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">My Blog Posts</h1>
+          <p className="text-sm text-muted-foreground mt-1">Only visible to you — other users cannot see this list.</p>
+        </div>
         <Button asChild className="bg-[#FDDA0D] text-gray-900 hover:bg-[#f5d00a]">
           <Link href="/blog/write">+ Write New Post</Link>
         </Button>

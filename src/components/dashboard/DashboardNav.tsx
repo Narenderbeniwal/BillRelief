@@ -26,7 +26,15 @@ export function DashboardNav({
       <span className="text-sm text-muted-foreground">
         {user.name ?? user.email}
       </span>
-      <Button variant="ghost" size="sm" onClick={() => signOut()}>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() =>
+          signOut({
+            callbackUrl: typeof window !== "undefined" ? `${window.location.origin}/` : "/",
+          })
+        }
+      >
         Sign out
       </Button>
     </nav>
