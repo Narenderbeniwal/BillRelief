@@ -16,9 +16,12 @@ export default async function DashboardLayout({
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-50 border-b bg-background">
         <div className="container mx-auto flex h-14 items-center justify-between px-4">
-          <Link href="/dashboard" className="font-bold text-lg text-billrelief-blue">
+          <a
+            href="https://www.billreliefai.com/"
+            className="font-bold text-lg text-billrelief-blue hover:underline"
+          >
             BillRelief
-          </Link>
+          </a>
           <DashboardNav user={session.user} />
         </div>
       </header>
