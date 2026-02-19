@@ -39,22 +39,24 @@ type Related = {
 
 type Props = { post: Post; related: Related[] };
 
-function addHeadingIds(html: string): { html: string; toc: { id: string; text: string }[] } {
-  const toc: { id: string; text: string }[] = [];
+function addHeadingIds(html: string): { html: string; toc: { id: string; text: string; level: number }[] } {
+  const toc: { id: string; text: string; level: number }[] = [];
   const slugify = (s: string) =>
     s
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "");
   let index = 0;
-  const htmlWithIds = html.replace(
-    /<h2([^>]*)>([^<]+)<\/h2>/gi,
-    (_, attrs, text) => {
-      const id = slugify(text) || `heading-${++index}`;
-      toc.push({ id, text: text.trim() });
-      return `<h2${attrs} id="${id}">${text}</h2>`;
-    }
-  );
+  const addId = (tag: string, attrs: string, text: string, level: number) => {
+    const id = slugify(text) || `heading-${++index}`;
+    toc.push({ id, text: text.trim(), level });
+    return `<${tag}${attrs} id="${id}">${text}</${tag}>`;
+  };
+  let htmlWithIds = html
+    .replace(/<h1([^>]*)>([^<]+)<\/h1>/gi, (_, a, t) => addId("h1", a, t, 1))
+    .replace(/<h2([^>]*)>([^<]+)<\/h2>/gi, (_, a, t) => addId("h2", a, t, 2))
+    .replace(/<h3([^>]*)>([^<]+)<\/h3>/gi, (_, a, t) => addId("h3", a, t, 3))
+    .replace(/<h4([^>]*)>([^<]+)<\/h4>/gi, (_, a, t) => addId("h4", a, t, 4));
   return { html: htmlWithIds, toc };
 }
 
@@ -202,8 +204,13 @@ export function BlogPostContent({ post, related }: Props) {
                 On this page
               </p>
               <ul className="space-y-1">
-                {toc.map(({ id, text }) => (
-                  <li key={id}>
+                {toc.map(({ id, text, level }) => (
+                  <li
+                    key={id}
+                    className={
+                      level === 1 ? "" : level === 3 ? "pl-3" : level === 4 ? "pl-4" : "pl-2"
+                    }
+                  >
                     <a
                       href={`#${id}`}
                       className="text-sm text-muted-foreground hover:text-[#0F4C81]"
@@ -217,7 +224,7 @@ export function BlogPostContent({ post, related }: Props) {
           )}
           <div className="flex-1 min-w-0">
             <div
-              className="prose prose-neutral max-w-none prose-headings:scroll-mt-24"
+              className="prose prose-neutral max-w-none prose-headings:scroll-mt-24 prose-h1:text-2xl prose-h1:md:text-3xl prose-h1:font-bold prose-h1:mt-10 prose-h1:mb-4 prose-h2:text-xl prose-h2:md:text-2xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4 prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-2 prose-h3:text-lg prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-3 prose-h4:text-base prose-h4:font-semibold prose-h4:mt-6 prose-h4:mb-2"
               dangerouslySetInnerHTML={{ __html: contentHtml }}
             />
             {/* CTA box */}

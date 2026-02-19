@@ -31,7 +31,7 @@ export function DashboardNav({
         size="sm"
         onClick={() =>
           signOut({
-            callbackUrl: "/login",
+            callbackUrl: "https://www.billreliefai.com/",
             redirect: true,
           })
         }
