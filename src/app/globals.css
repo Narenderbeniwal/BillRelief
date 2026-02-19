@@ -7,6 +7,128 @@
   border-radius: 0.5rem;
 }
 
+/* Professional medical/healthcare blog article page */
+.blog-article {
+  --blog-navy: #1a2e5a;
+  --blog-body: #333333;
+  --blog-tip-bg: #f5f7fa;
+  --blog-tip-border: #e0e4ea;
+  font-family: "Inter", "Nunito", "Open Sans", system-ui, sans-serif;
+}
+
+.blog-article .blog-article-prose h1,
+.blog-article .blog-article-prose h2,
+.blog-article .blog-article-prose h3 {
+  color: var(--blog-navy);
+  font-weight: 700;
+}
+
+.blog-article .blog-article-prose h1 {
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.blog-article .blog-article-prose h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  border: none;
+}
+
+.blog-article .blog-article-prose h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.blog-article .blog-article-prose h4 {
+  color: var(--blog-navy);
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-article .blog-article-prose p {
+  color: var(--blog-body);
+  font-size: 17px;
+  line-height: 1.8;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+.blog-article .blog-article-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.blog-article .blog-article-prose a {
+  color: var(--blog-navy);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.blog-article .blog-article-prose a:hover {
+  text-decoration: underline;
+}
+
+.blog-article .blog-article-prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+.blog-article .blog-article-prose li {
+  color: var(--blog-body);
+  font-size: 17px;
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
+}
+
+.blog-article .blog-article-tip {
+  background: var(--blog-tip-bg);
+  border: 1px solid var(--blog-tip-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 32px 0;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.blog-article .blog-article-tip .tip-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.blog-article .blog-article-tip .tip-label {
+  color: var(--blog-navy);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.blog-article .blog-article-tip p {
+  margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  .blog-article .blog-article-prose h1 {
+    font-size: 1.6rem;
+  }
+  .blog-article .blog-article-prose h2 {
+    font-size: 1.5rem;
+  }
+  .blog-article .blog-article-prose p,
+  .blog-article .blog-article-prose li {
+    font-size: 16px;
+  }
+  .blog-article .blog-article-tip {
+    padding: 16px;
+  }
+}
+
 
 @layer base {
   :root {

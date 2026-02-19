@@ -52,7 +52,7 @@ export default async function BlogPostPage({
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F9FAFB]">
+    <div className="min-h-screen flex flex-col bg-white">
       <SiteHeader />
       <BlogPostContent
         post={{
@@ -63,6 +63,7 @@ export default async function BlogPostPage({
           category: post.category,
           featuredImage: post.featuredImage ?? post.coverImage ?? undefined,
           publishedAt: post.publishedAt ?? post.createdAt,
+          updatedAt: post.updatedAt,
           readTime: post.readTime ?? undefined,
           author: post.author
             ? {
