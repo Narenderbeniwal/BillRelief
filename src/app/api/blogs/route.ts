@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { notifyGoogleIndexing, pingGoogleSitemap } from "@/lib/googleIndexing";
 
 // GET /api/blogs - public list of published posts (?category=) or own posts (?mine=1)
 export async function GET(req: NextRequest) {
@@ -161,6 +162,11 @@ export async function POST(req: NextRequest) {
       authorId: user.id,
     },
   });
+
+  if (isPublished) {
+    notifyGoogleIndexing(`/blog/${post.slug}`).catch(() => {});
+    pingGoogleSitemap().catch(() => {});
+  }
 
   return NextResponse.json(post, { status: 201 });
 }

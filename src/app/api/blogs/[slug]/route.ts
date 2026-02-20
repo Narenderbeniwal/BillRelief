@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { notifyGoogleIndexing, pingGoogleSitemap } from "@/lib/googleIndexing";
 
 // GET /api/blogs/[slug] - public single post (or own draft for author)
 export async function GET(
@@ -105,6 +106,13 @@ export async function PATCH(
     where: { id: post.id },
     data: data as any,
   });
+
+  if (updated.published) {
+    const finalSlug = (data.slug as string) ?? params.slug;
+    notifyGoogleIndexing(`/blog/${finalSlug}`).catch(() => {});
+    pingGoogleSitemap().catch(() => {});
+  }
+
   return NextResponse.json(updated);
 }
 
