@@ -13,7 +13,7 @@ const logos = [
 export function TrustedBySection() {
   return (
     <section className="bg-[#F9FAFB] py-10">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -30,15 +30,15 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="py-14 sm:py-16 md:py-20 bg-background">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-14 md:mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">How It Works</h2>
+          <h2 className="text-2xl font-bold mb-4 sm:text-3xl md:text-3xl lg:text-4xl">How It Works</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Four simple steps to lower your medical bills. Most users see results within 2 weeks.
           </p>
@@ -67,7 +67,7 @@ export function HowItWorks() {
             </motion.div>
           ))}
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid gap-6 sm:gap-8 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
           {steps.map((step, idx) => (
             <motion.div
               key={step.title}

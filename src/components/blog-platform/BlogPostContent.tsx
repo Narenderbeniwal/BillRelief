@@ -64,13 +64,20 @@ function addHeadingIds(html: string): { html: string; toc: { id: string; text: s
   return { html: htmlWithIds, toc };
 }
 
+function wrapTablesForMobile(html: string): string {
+  if (!html.includes("<table")) return html;
+  return html
+    .replace(/<table(\s[^>]*)?>/gi, '<div class="overflow-x-auto -mx-4 px-4 my-4 blog-table-scroll"><table$1>')
+    .replace(/<\/table>/gi, "</table></div>");
+}
+
 export function BlogPostContent({ post, related }: Props) {
   const { data: session, status } = useSession();
   const [copied, setCopied] = useState(false);
-  const { html: contentHtml } = useMemo(
-    () => addHeadingIds(post.contentHtml),
-    [post.contentHtml]
-  );
+  const { html: contentHtml } = useMemo(() => {
+    const { html } = addHeadingIds(post.contentHtml);
+    return { html: wrapTablesForMobile(html) };
+  }, [post.contentHtml]);
 
   const publishedStr = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString("en-US", {
@@ -102,7 +109,7 @@ export function BlogPostContent({ post, related }: Props) {
 
   return (
     <main className="flex-1 bg-white">
-      <article className="blog-article mx-auto w-full max-w-[900px] px-4 py-10 md:px-6 md:py-12">
+      <article className="blog-article mx-auto w-full max-w-[900px] px-4 py-10 sm:px-6 sm:py-11 md:px-8 md:py-12 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]">
         {/* H1 – extra large, centered, navy */}
         <h1
           className="text-center font-bold leading-tight"

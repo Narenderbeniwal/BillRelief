@@ -23,9 +23,9 @@ export function ComparisonMatrix() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm"
+      className="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm scroll-touch"
     >
-      <table className="w-full min-w-[600px] text-left text-sm">
+      <table className="w-full min-w-[560px] text-left text-sm md:min-w-[600px]">
         <thead>
           <tr className="border-b border-gray-200 bg-gray-50">
             {headers.map((h, i) => (

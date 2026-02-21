@@ -113,6 +113,11 @@
   margin-bottom: 0;
 }
 
+/* Blog article: table scroll wrapper (added in BlogPostContent) */
+.blog-article .blog-article-prose .blog-table-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
 @media (max-width: 767px) {
   .blog-article .blog-article-prose h1 {
     font-size: 1.6rem;
@@ -174,6 +179,28 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 199 89% 48%;
+  }
+}
+
+/* Mobile-first: prevent horizontal scroll, improve touch */
+html {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+/* Smooth touch scrolling for horizontal scroll areas (tablet/mobile) */
+.scroll-touch {
+  -webkit-overflow-scrolling: touch;
+}
+body {
+  overflow-x: hidden;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+/* Mobile: ensure tap targets are at least 44px where possible (handled per-component for nav/CTAs) */
+/* Prevent zoom on input focus (iOS) while keeping readability */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea {
+    font-size: 16px !important;
   }
 }
 

@@ -50,13 +50,13 @@ const competitors = [
 
 export function WhyCompetitorsFail() {
   return (
-    <section id="why-competitors-fail" className="border-t border-gray-200 bg-white py-20">
-      <div className="container mx-auto px-4">
+    <section id="why-competitors-fail" className="border-t border-gray-200 bg-white py-14 sm:py-16 md:py-20">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center text-3xl font-bold text-gray-900 lg:text-4xl"
+          className="text-center text-2xl font-bold text-gray-900 sm:text-3xl md:text-3xl lg:text-4xl"
         >
           Why Other Services Leave You Stuck With the Bill
         </motion.h2>
@@ -64,7 +64,7 @@ export function WhyCompetitorsFail() {
           Based on common patient complaints: high minimums, long delays, limited
           bill coverage, and unclear pricing terms.
         </p>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-10 grid gap-4 sm:mt-12 sm:gap-6 sm:grid-cols-2 lg:gap-8 xl:grid-cols-4">
           {competitors.map((c, i) => (
             <motion.div
               key={c.name}

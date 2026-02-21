@@ -39,13 +39,13 @@ const highlights = [
 
 export function BillReliefDifference() {
   return (
-    <section id="difference" className="border-t border-gray-200 bg-[#F9FAFB] py-20">
-      <div className="container mx-auto px-4">
+    <section id="difference" className="border-t border-gray-200 bg-[#F9FAFB] py-14 sm:py-16 md:py-20">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center text-3xl font-bold text-gray-900 lg:text-4xl"
+          className="text-center text-2xl font-bold text-gray-900 sm:text-3xl md:text-3xl lg:text-4xl"
         >
           How BillRelief Solves Every Problem
         </motion.h2>
@@ -55,7 +55,7 @@ export function BillReliefDifference() {
         <div className="mt-12">
           <ComparisonMatrix />
         </div>
-        <div className="mt-16 grid gap-8 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:mt-14 md:mt-16 md:grid-cols-3 md:gap-8">
           {highlights.map((h, i) => (
             <motion.div
               key={h.title}

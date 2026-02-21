@@ -57,9 +57,9 @@ export function LandingCTA({
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className={`py-16 md:py-20 ${variantStyles[variant]} ${className}`}
+      className={`py-12 sm:py-14 md:py-16 lg:py-20 ${variantStyles[variant]} ${className}`}
     >
-      <div className="container mx-auto px-4 text-center">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8 text-center">
         {Icon && (
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -70,18 +70,18 @@ export function LandingCTA({
             <Icon className="h-7 w-7" />
           </motion.div>
         )}
-        <h2 className={`text-2xl font-bold md:text-3xl lg:text-4xl ${textClass}`}>
+        <h2 className={`text-xl font-bold sm:text-2xl md:text-3xl lg:text-4xl ${textClass}`}>
           {headline}
         </h2>
         <p className={`mx-auto mt-3 max-w-xl text-base md:text-lg ${isDark ? "text-white/90" : "text-gray-700"}`}>
           {valueProp}
         </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="mt-6 flex w-full max-w-sm flex-col items-stretch justify-center gap-4 sm:mx-auto sm:mt-8 sm:max-w-none sm:flex-row sm:items-center md:flex-row">
           <Button
             asChild
             size="lg"
             variant="yellow"
-            className="min-w-[200px] text-base font-bold shadow-lg hover:opacity-95"
+            className="min-h-[48px] w-full text-base font-bold shadow-lg hover:opacity-95 sm:min-w-[200px] sm:w-auto"
           >
             <Link href={primaryHref}>{primaryLabel}</Link>
           </Button>
@@ -90,7 +90,7 @@ export function LandingCTA({
               asChild
               size="lg"
               variant="outline"
-              className={`min-w-[180px] border-2 ${isDark ? "border-white text-white hover:bg-white/10" : "border-[#0F4C81] text-[#0F4C81] hover:bg-[#0F4C81]/10"}`}
+              className={`min-h-[48px] w-full border-2 sm:min-w-[180px] sm:w-auto ${isDark ? "border-white text-white hover:bg-white/10" : "border-[#0F4C81] text-[#0F4C81] hover:bg-[#0F4C81]/10"}`}
             >
               <Link href={secondaryHref}>{secondaryLabel}</Link>
             </Button>

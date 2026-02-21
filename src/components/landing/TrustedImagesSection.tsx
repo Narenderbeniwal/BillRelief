@@ -18,8 +18,8 @@ type TrustedImagesSectionProps = {
 
 export function TrustedImagesSection({ onPricingPage }: TrustedImagesSectionProps = {}) {
   return (
-    <section className="border-t border-gray-200 bg-white py-16 lg:py-24">
-      <div className="container mx-auto px-4">
+    <section className="border-t border-gray-200 bg-white py-14 sm:py-16 md:py-20 lg:py-24">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}

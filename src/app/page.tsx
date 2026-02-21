@@ -98,8 +98,8 @@ export default function HomePage() {
           icon="alertCircle"
           variant="primary"
         />
-        <section className="border-t bg-muted/30 py-12">
-          <div className="container mx-auto px-4 text-center">
+        <section className="border-t bg-muted/30 py-10 sm:py-12 md:py-14">
+          <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8 text-center">
             <p className="text-muted-foreground mb-4 text-sm">
               Free estimate · No commitment · 10,000+ bills reduced
             </p>

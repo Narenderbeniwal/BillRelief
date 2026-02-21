@@ -12,24 +12,24 @@ import { SECTION_IMAGES } from "@/lib/trustedImages";
 export function HeroSection() {
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#F9FAFB]">
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid min-h-screen items-center gap-12 py-16 lg:grid-cols-2 lg:gap-16">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
+        <div className="grid min-h-screen items-center gap-8 py-12 sm:gap-10 sm:py-14 md:grid-cols-2 md:gap-12 md:py-16 lg:gap-16">
           {/* Left column */}
           <div className="flex flex-col">
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-amber-300 bg-[#FEF3C7] px-4 py-2 text-sm font-bold text-[#0F4C81]"
+              className="mb-6 inline-flex w-fit max-w-full flex-wrap items-center gap-2 rounded-full border border-amber-300 bg-[#FEF3C7] px-3 py-2 text-xs font-bold text-[#0F4C81] sm:text-sm sm:px-4"
             >
-              <span className="flex h-2 w-2 animate-pulse rounded-full bg-amber-500" />
-              <Zap className="h-4 w-4" />
-              48-HOUR RESULTS · AI-POWERED · $500 MINIMUM
+              <span className="flex h-2 w-2 animate-pulse rounded-full bg-amber-500 shrink-0" />
+              <Zap className="h-4 w-4 shrink-0" />
+              <span className="text-left">48-HOUR RESULTS · AI-POWERED · $500 MINIMUM</span>
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-4xl font-bold leading-tight tracking-tight text-gray-900 lg:text-6xl"
+              className="text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl md:text-5xl lg:text-6xl"
             >
               <span className="bg-gradient-to-r from-[#0F4C81] to-[#1e5a9e] bg-clip-text text-transparent">
                 Medical Bill Relief
@@ -41,7 +41,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mt-4 text-lg text-gray-600 lg:text-2xl lg:leading-snug"
+              className="mt-4 text-lg text-gray-600 md:text-xl lg:text-2xl lg:leading-snug"
             >
               Most services are slow, opaque, and limited. We combine AI speed with
               expert review so you get a clear, defensible bill-reduction strategy in 48 hours.
@@ -105,7 +105,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="mt-5 grid gap-2 rounded-xl border border-gray-200 bg-white p-4 text-sm text-gray-700 sm:grid-cols-3"
+              className="mt-5 grid gap-2 rounded-xl border border-gray-200 bg-white p-4 text-sm text-gray-700 sm:grid-cols-2 md:grid-cols-3"
             >
               <span className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-[#0F4C81]" />
@@ -127,9 +127,9 @@ export function HeroSection() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.25 }}
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-4 sm:gap-6"
           >
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
               {SECTION_IMAGES.map((img, i) => (
                 <div key={i} className="relative aspect-[4/3] overflow-hidden rounded-xl border border-gray-200 shadow-sm">
                   <ImageWithFallback

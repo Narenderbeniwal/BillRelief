@@ -32,8 +32,8 @@ const items = [
 
 export function SecurityComplianceSection() {
   return (
-    <section className="border-t border-gray-200 bg-[#F9FAFB] py-20">
-      <div className="container mx-auto px-4">
+    <section className="border-t border-gray-200 bg-[#F9FAFB] py-14 sm:py-16 md:py-20">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold text-gray-900 lg:text-4xl">
             Built for Trust, Security, and Accountability

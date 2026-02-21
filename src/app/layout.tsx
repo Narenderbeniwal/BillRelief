@@ -7,6 +7,13 @@ import { OrganizationSchema, WebSiteSchema, ServiceSchema } from "@/components/s
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "BillRelief | Lower Your Medical Bills by 30-70%",

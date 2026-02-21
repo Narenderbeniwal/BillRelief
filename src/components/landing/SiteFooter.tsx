@@ -13,8 +13,8 @@ type SiteFooterProps = {
 
 export function SiteFooter({ tagline, top, links, className = "" }: SiteFooterProps) {
   return (
-    <footer className={`border-t py-8 text-center text-sm text-muted-foreground pb-20 sm:pb-8 ${className}`}>
-      <div className="container mx-auto px-4">
+    <footer className={`border-t py-8 text-center text-sm text-muted-foreground pb-20 sm:pb-8 md:pb-8 ${className}`}>
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
         {top && <div className="mb-4">{top}</div>}
         <p>© 2026 {SITE_DOMAIN}. HIPAA Compliant. All rights reserved.</p>
         <p className="mt-2">

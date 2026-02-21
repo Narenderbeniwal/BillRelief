@@ -96,8 +96,8 @@ export function MarketGapSolutions() {
   const data = content[active];
 
   return (
-    <section id="solutions" className="border-t border-gray-200 bg-white py-20">
-      <div className="container mx-auto px-4">
+    <section id="solutions" className="border-t border-gray-200 bg-white py-14 sm:py-16 md:py-20">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -14,8 +14,8 @@ const badges = [
 export function TrustBadgesBar() {
   return (
     <section className="border-y border-gray-200 bg-white py-4">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4">
           {badges.map((badge, i) => (
             <motion.div
               key={badge.label}

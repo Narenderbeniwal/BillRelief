@@ -10,8 +10,8 @@ export function LocalSEOSection() {
   const state = "Texas";
 
   return (
-    <section id="local" className="border-t border-gray-200 bg-[#F9FAFB] py-20">
-      <div className="container mx-auto px-4">
+    <section id="local" className="border-t border-gray-200 bg-[#F9FAFB] py-14 sm:py-16 md:py-20">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

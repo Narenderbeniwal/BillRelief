@@ -16,8 +16,8 @@ const checks = [
 
 export function FinalCTASection() {
   return (
-    <section className="border-t border-gray-200 bg-[#0F4C81] py-20">
-      <div className="container mx-auto px-4 text-center">
+    <section className="border-t border-gray-200 bg-[#0F4C81] py-14 sm:py-16 md:py-20">
+      <div className="container mx-auto px-4 sm:px-6 md:px-6 lg:px-8 text-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
