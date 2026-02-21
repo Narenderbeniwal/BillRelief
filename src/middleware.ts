@@ -24,7 +24,12 @@ function redirectToCanonical(request: NextRequest): NextResponse | null {
     request.nextUrl.pathname + request.nextUrl.search,
     `https://${CANONICAL_HOST}`
   );
-  return NextResponse.redirect(url, 301);
+  const res = NextResponse.redirect(url, 301);
+  res.headers.set(
+    "Strict-Transport-Security",
+    "max-age=31536000; includeSubDomains; preload"
+  );
+  return res;
 }
 
 const authMiddleware = withAuth({ pages: { signIn: "/login" } });
