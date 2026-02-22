@@ -120,7 +120,7 @@ export function EnhancedHero() {
             <div className="mt-8 flex flex-wrap items-center gap-6 text-teal-200">
               <div className="flex items-center gap-2">
                 <Shield className="w-5 h-5" />
-                <span className="text-sm">HIPAA Compliant</span>
+                <span className="text-sm">HIPAA-aligned</span>
               </div>
               <div className="h-4 w-px bg-teal-400" />
               <div className="flex items-center gap-2">

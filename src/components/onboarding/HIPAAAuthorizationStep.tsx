@@ -84,7 +84,7 @@ export function HIPAAAuthorizationStep({
 
         <div className="mt-4 flex items-center gap-2 text-sm text-gray-600">
           <Shield className="w-4 h-4" />
-          <span>HIPAA Compliant • Bank-Level Encryption • Secure Storage</span>
+          <span>HIPAA-aligned • Bank-Level Encryption • Secure Storage</span>
         </div>
       </div>
 

@@ -11,7 +11,7 @@ import { SECTION_IMAGES } from "@/lib/trustedImages";
 import { CostUrgency } from "./CostUrgency";
 
 const HERO_TRUST_BADGES = [
-  { icon: ShieldCheck, label: "HIPAA Compliant", title: "HIPAA Compliant" },
+  { icon: ShieldCheck, label: "HIPAA-aligned", title: "HIPAA-aligned safeguards" },
   { icon: Lock, label: "256-Bit Encrypted", title: "256-Bit Encrypted" },
   { icon: Star, label: "4.9/5 (2,400+ reviews)", title: "4.9/5 from 2,400+ reviews", fillStar: true },
   { icon: BadgeCheck, label: "BBB A+ Accredited", title: "BBB Accredited A+ Rated" },
@@ -87,7 +87,7 @@ export function HeroSection() {
                 "10,000+ Bills Reduced",
                 "$22M+ Saved",
                 "4.9/5 Rating",
-                "HIPAA Secure",
+                "HIPAA-aligned",
               ].map((item, i) => (
                 <span key={i} className="flex items-center gap-1.5">
                   <Check className="h-4 w-4 text-[#10B981]" />

@@ -8,7 +8,7 @@ interface OrganizationSchemaProps {
 
 export function OrganizationSchema({
   name = "BillRelief",
-  description = "AI-powered medical bill analysis. We find errors and overcharges in 48 hours. No savings = no fee. HIPAA compliant.",
+  description = "AI-powered medical bill analysis. We find errors and overcharges in 48 hours. No savings = no fee. HIPAA-aligned.",
   logo = `${SITE_URL}/logo.png`,
 }: OrganizationSchemaProps) {
   const schema = {

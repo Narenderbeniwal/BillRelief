@@ -170,12 +170,12 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       {
         question: "Is my data secure?",
         answer:
-          "Yes. We're HIPAA-compliant with 256-bit encryption, secure cloud storage, and strict access controls. We never sell your data.",
+          "Yes. We're HIPAA-aligned with 256-bit encryption, secure cloud storage, and strict access controls. We never sell your data.",
       },
       {
         question: "How do I upload my bill?",
         answer:
-          "After you sign up, you can upload a PDF, JPG, or PNG of your medical bill through our secure portal. Max file size is 10MB. Our system is HIPAA compliant.",
+          "After you sign up, you can upload a PDF, JPG, or PNG of your medical bill through our secure portal. Max file size is 10MB. Our system is HIPAA-aligned.",
       },
       {
         question: "Who can see my medical information?",

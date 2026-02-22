@@ -65,6 +65,23 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// HIPAA: audit log for access to PHI (e.g. bill file download)
+model AuditLog {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  action       String   // e.g. "bill_file_download", "bill_list"
+  resourceType String   @map("resource_type") // e.g. "MedicalBill"
+  resourceId   String   @map("resource_id")
+  ipAddress    String?  @map("ip_address") @db.VarChar(45)
+  userAgent    String?  @map("user_agent") @db.Text
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([resourceType, resourceId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
 enum BillStatus {
   pending
   analyzing

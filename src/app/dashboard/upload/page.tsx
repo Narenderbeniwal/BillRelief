@@ -17,7 +17,7 @@ export default function UploadPage() {
         <CardHeader>
           <CardTitle>Upload a medical bill</CardTitle>
           <CardDescription>
-            Upload a PDF, JPG, or PNG (max 10MB). Our AI will analyze it for errors and overcharges. Your file is stored securely and HIPAA compliant.
+            Upload a PDF, JPG, or PNG (max 10MB). Our AI will analyze it for errors and overcharges. Your file is stored securely and HIPAA-aligned.
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -9,7 +9,7 @@ const steps = [
   {
     icon: Upload,
     title: "Upload Your Bill",
-    description: "Upload a PDF, JPG, or PNG of your medical bill. Our system is HIPAA compliant and secure.",
+    description: "Upload a PDF, JPG, or PNG of your medical bill. Our system is HIPAA-aligned and secure.",
   },
   {
     icon: Search,

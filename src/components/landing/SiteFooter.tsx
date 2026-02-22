@@ -35,7 +35,7 @@ export function SiteFooter({ tagline, top, links, className = "" }: SiteFooterPr
           </div>
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-amber-700">
             <Award className="h-4 w-4 shrink-0" />
-            <span>HIPAA Compliant · 4.9/5 from 2,400+ reviews</span>
+            <span>HIPAA-aligned · 4.9/5 from 2,400+ reviews</span>
           </div>
         </div>
 
@@ -88,6 +88,12 @@ export function SiteFooter({ tagline, top, links, className = "" }: SiteFooterPr
             <Link href="/blog" className="text-[#0F4C81] hover:underline">
               Blog
             </Link>
+            <Link href="/privacy" className="text-[#0F4C81] hover:underline">
+              Privacy
+            </Link>
+            <Link href="/hipaa" className="text-[#0F4C81] hover:underline">
+              HIPAA &amp; Security
+            </Link>
           </p>
         </div>
 
@@ -124,7 +130,7 @@ export function SiteFooter({ tagline, top, links, className = "" }: SiteFooterPr
 
         {/* Copyright */}
         <p className="text-center text-xs text-gray-500">
-          © 2026 {SITE_DOMAIN}. HIPAA Compliant. All rights reserved.
+          © 2026 {SITE_DOMAIN}. HIPAA-aligned. All rights reserved.
         </p>
         {tagline && <p className="mt-2 text-center text-xs text-gray-500">{tagline}</p>}
         {links && <div className="mt-2 text-center">{links}</div>}

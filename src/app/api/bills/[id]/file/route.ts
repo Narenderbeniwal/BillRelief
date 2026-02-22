@@ -2,11 +2,24 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { logPhiAccess } from "@/lib/auditLog";
 import { readFile } from "fs/promises";
 import path from "path";
 
+/** HIPAA: use generic filename in response to avoid leaking PHI (e.g. patient name in original filename). */
+function safeDownloadFilename(fileType: string | null): string {
+  const ext = fileType?.includes("pdf")
+    ? "pdf"
+    : fileType?.includes("png")
+      ? "png"
+      : fileType?.includes("jpeg") || fileType?.includes("jpg")
+        ? "jpg"
+        : "bin";
+  return `bill.${ext}`;
+}
+
 export async function GET(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
@@ -23,6 +36,14 @@ export async function GET(
   if (!bill?.fileUrl) {
     return NextResponse.json({ error: "File not found" }, { status: 404 });
   }
+
+  await logPhiAccess({
+    userId: session.user.id,
+    action: "bill_file_download",
+    resourceType: "MedicalBill",
+    resourceId: id,
+    request: req,
+  });
 
   const { isBlobFileUrl, getBlobDownloadUrl } = await import(
     "@/lib/azure-blob"
@@ -49,13 +70,14 @@ export async function GET(
   }
 
   const contentType = bill.fileType || "application/octet-stream";
-  const disposition = `inline; filename="${(bill.fileName || "bill").replace(/"/g, "%22")}"`;
+  const safeName = safeDownloadFilename(bill.fileType);
+  const disposition = `inline; filename="${safeName}"`;
 
   return new NextResponse(new Uint8Array(buffer), {
     headers: {
       "Content-Type": contentType,
       "Content-Disposition": disposition,
-      "Cache-Control": "private, max-age=3600",
+      "Cache-Control": "private, no-store, max-age=0",
     },
   });
 }
