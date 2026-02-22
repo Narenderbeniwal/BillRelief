@@ -87,6 +87,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     situation: "Self-employed contractor, no insurance",
     incident: "Cardiac catheterization and stent placement, 2-day stay",
     originalBill: 67000,
+    patientOwed: 67000,
     resolutionDays: 14,
     problem:
       "David had a heart scare and went to the ER. With no insurance, he received a $67,000 bill. He had no way to pay it and feared losing his home. He had heard about charity care but didn't know how to apply or what to ask for.",
