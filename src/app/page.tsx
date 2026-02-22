@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { FAQSchema } from "@/components/seo/StructuredData";
+import { HOMEPAGE_FAQS } from "@/lib/faqData";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { WhyCompetitorsFail } from "@/components/landing/WhyCompetitorsFail";
@@ -24,6 +26,7 @@ import { Button } from "@/components/ui/button";
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <FAQSchema faqs={[...HOMEPAGE_FAQS]} />
       <SiteHeader />
       <main className="flex-1">
         <HeroSection />

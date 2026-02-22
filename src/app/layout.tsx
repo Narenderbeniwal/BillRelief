@@ -16,11 +16,13 @@ export const viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "BillRelief | Lower Your Medical Bills by 30-70%",
+  title: "Lower Medical Bills 30-70% in 48 Hours | Free Analysis — BillRelief",
   description:
-    "AI-powered medical bill analysis. We find errors and overcharges in 48 hours. No savings = no fee. HIPAA compliant.",
+    "Get a free medical bill analysis in 48 hours. No savings = no fee. 10,000+ bills reduced, $22M+ saved. AI + expert review. Start free →",
   openGraph: {
     siteName: "BillRelief",
+    title: "Lower Medical Bills 30-70% in 48 Hours | Free Analysis",
+    description: "Free medical bill analysis in 48 hours. No savings = no fee. 10,000+ bills reduced. Start free.",
     url: SITE_URL,
     type: "website",
     images: [{ url: `${SITE_URL}/og-image.png`, width: 1200, height: 630 }],
@@ -28,6 +30,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@billreliefai",
+    title: "Lower Medical Bills 30-70% in 48 Hours | Free Analysis",
+    description: "Free medical bill analysis in 48 hours. No savings = no fee. Start free.",
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
@@ -35,6 +39,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
+  keywords: ["medical bill reduction", "negotiate medical bills", "medical bill help", "lower hospital bills", "bill relief", "healthcare costs"],
 };
 
 export default function RootLayout({
