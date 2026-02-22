@@ -2,22 +2,19 @@
 
 import Script from "next/script";
 
-// NEXT_PUBLIC_* are inlined at build time — set in Azure App settings before build/deploy
-const PROPERTY_ID = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID?.trim() || "";
-const WIDGET_ID = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID?.trim() || "";
+// Env vars (build time); fallback to BillRelief Tawk IDs so widget shows even if Azure doesn't pass them at build
+const PROPERTY_ID =
+  process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID?.trim() || "699ac87af9f4b51c3f6e2510";
+const WIDGET_ID =
+  process.env.NEXT_PUBLIC_TAWK_WIDGET_ID?.trim() || "1ji29u8ls";
 
 /** Brand color for chat bubble (match site primary) */
 const CHAT_BUBBLE_COLOR = "#0F4C81";
 
 /**
- * Tawk.to live chat: human-first, HIPAA-safe.
- * Loads only when both env vars are set. Set in Azure: NEXT_PUBLIC_TAWK_PROPERTY_ID, NEXT_PUBLIC_TAWK_WIDGET_ID.
+ * Tawk.to live chat. Uses env vars when set; otherwise BillRelief property so widget always loads.
  */
 export function TawkToWidget() {
-  if (!PROPERTY_ID || !WIDGET_ID) {
-    return null;
-  }
-
   const embedSrc = `https://embed.tawk.to/${PROPERTY_ID}/${WIDGET_ID}`;
 
   const inlineScript = `
