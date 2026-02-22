@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check } from "lucide-react";
+import { X, Check, FileText } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const STORAGE_KEY = "billrelief_exit_popup_shown";
 const STORAGE_EMAIL_KEY = "billrelief_exit_email_captured";
 
+/** Exit-intent: show when mouse leaves toward browser chrome (close tab). */
 function shouldShowPopup(pathname: string): boolean {
   if (pathname === "/get-started" || pathname === "/pricing") return false;
   if (typeof window === "undefined") return false;
@@ -34,18 +35,23 @@ export function ExitIntentPopup() {
     } catch {}
   }, []);
 
+  const triggeredRef = useRef(false);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!shouldShowPopup(pathname)) return;
 
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 0 && window.innerWidth >= 768) {
+    const handleExitIntent = (e: MouseEvent) => {
+      if (triggeredRef.current) return;
+      if (window.innerWidth < 768) return;
+      if (e.clientY <= 10) {
+        triggeredRef.current = true;
         setVisible(true);
       }
     };
 
-    window.addEventListener("mouseleave", handleMouseLeave);
-    return () => window.removeEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseout", handleExitIntent);
+    return () => document.removeEventListener("mouseout", handleExitIntent);
   }, [pathname]);
 
   useEffect(() => {
@@ -114,11 +120,11 @@ export function ExitIntentPopup() {
             className="fixed left-1/2 top-1/2 z-[101] w-full max-w-md -translate-x-1/2 -translate-y-1/2 p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl">
+            <div className="relative rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl">
               <button
                 type="button"
                 onClick={hide}
-                className="absolute right-4 top-4 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                className="absolute right-3 top-3 rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
                 aria-label="Close"
               >
                 <X className="h-5 w-5" />
@@ -128,18 +134,22 @@ export function ExitIntentPopup() {
                   <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#10B981]/20 text-[#10B981]">
                     <Check className="h-6 w-6" />
                   </div>
-                  <p className="font-semibold text-gray-900">You&apos;re on the list!</p>
+                  <p className="font-semibold text-gray-900">Check your inbox</p>
                   <p className="mt-1 text-sm text-gray-600">
-                    Check your inbox for your free scan link.
+                    We sent your free Medical Bill Guide + AI scan link.
                   </p>
                 </div>
               ) : (
                 <>
-                  <h3 className="pr-8 text-xl font-bold text-gray-900">
-                    Wait! Before You Go...
+                  <div className="mb-3 flex items-center gap-2 text-[#0F4C81]">
+                    <FileText className="h-6 w-6 shrink-0" />
+                    <span className="text-sm font-bold uppercase tracking-wide">Free download</span>
+                  </div>
+                  <h3 className="pr-10 text-xl font-bold text-gray-900">
+                    Wait! Get Our Free Medical Bill Guide
                   </h3>
                   <p className="mt-2 text-gray-600">
-                    95% of medical bills have errors. Get a <strong>FREE 2-minute AI scan</strong>.
+                    <strong>5 mistakes</strong> that inflate your bill + <strong>free 2‑min AI scan</strong> link. No spam—just the guide and your results.
                   </p>
                   <form onSubmit={handleSubmit} className="mt-6">
                     <input
@@ -153,9 +163,9 @@ export function ExitIntentPopup() {
                     <button
                       type="submit"
                       disabled={status === "loading"}
-                      className="mt-3 w-full rounded-lg bg-[#FDDA0D] py-3 font-bold text-gray-900 hover:opacity-95 disabled:opacity-70"
+                      className="mt-3 w-full rounded-lg bg-[#0F4C81] py-3 font-bold text-white hover:bg-[#0F4C81]/90 disabled:opacity-70"
                     >
-                      {status === "loading" ? "Sending..." : "Get Free Scan"}
+                      {status === "loading" ? "Sending..." : "Send me the free guide"}
                     </button>
                   </form>
                   {status === "error" && (
@@ -163,8 +173,8 @@ export function ExitIntentPopup() {
                   )}
                   <p className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-gray-500">
                     <span>✓ No spam</span>
-                    <span>✓ Instant results</span>
-                    <span>✓ 10,000+ patients trust us</span>
+                    <span>✓ Free guide + scan link</span>
+                    <span>✓ 10,000+ patients</span>
                   </p>
                 </>
               )}

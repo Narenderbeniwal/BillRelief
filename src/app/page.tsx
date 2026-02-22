@@ -7,6 +7,7 @@ import { WhyCompetitorsFail } from "@/components/landing/WhyCompetitorsFail";
 import { BillReliefDifference } from "@/components/landing/BillReliefDifference";
 import { MarketGapSolutions } from "@/components/landing/MarketGapSolutions";
 import { LocalSEOSection } from "@/components/landing/LocalSEOSection";
+import { CostUrgency } from "@/components/landing/CostUrgency";
 import { TestimonialWithCompetitorCallout } from "@/components/landing/TestimonialWithCompetitorCallout";
 import { FinalCTASection } from "@/components/landing/FinalCTASection";
 import { LandingCTA } from "@/components/landing/LandingCTA";
@@ -16,6 +17,7 @@ import { StickyMobileCTA } from "@/components/landing/StickyMobileCTA";
 import { SiteHeader } from "@/components/landing/SiteHeader";
 import { TrustBadgesBar } from "@/components/landing/TrustBadgesBar";
 import { TrustedBySection } from "@/components/landing/TrustedBySection";
+import { BeforeAfterBillsSection } from "@/components/landing/BeforeAfterBillsSection";
 import { ProofStatsSection } from "@/components/landing/ProofStatsSection";
 import { SecurityComplianceSection } from "@/components/landing/SecurityComplianceSection";
 import { RiskFreeGuaranteeSection } from "@/components/landing/RiskFreeGuaranteeSection";
@@ -57,6 +59,7 @@ export default function HomePage() {
           variant="primary"
         />
         <ProofStatsSection />
+        <BeforeAfterBillsSection />
         <TrustedImagesSection />
         <MarketGapSolutions />
         <section id="how-it-works">
@@ -75,6 +78,7 @@ export default function HomePage() {
         />
         <SecurityComplianceSection />
         <LocalSEOSection />
+        <CostUrgency showCta />
         <TestimonialWithCompetitorCallout />
         <LandingCTA
           headline="Join 10,000+ Patients Who Saved"

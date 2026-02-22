@@ -2,12 +2,21 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Zap, Check, ShieldCheck, BadgeDollarSign, Users, ArrowRight, CircleDollarSign } from "lucide-react";
+import { Zap, Check, ShieldCheck, BadgeDollarSign, Users, ArrowRight, CircleDollarSign, Lock, Star, BadgeCheck, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CompetitorComparisonCard } from "./CompetitorComparisonCard";
 import { InteractiveSavingsCalculator } from "./InteractiveSavingsCalculator";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { SECTION_IMAGES } from "@/lib/trustedImages";
+import { CostUrgency } from "./CostUrgency";
+
+const HERO_TRUST_BADGES = [
+  { icon: ShieldCheck, label: "HIPAA Compliant", title: "HIPAA Compliant" },
+  { icon: Lock, label: "256-Bit Encrypted", title: "256-Bit Encrypted" },
+  { icon: Star, label: "4.9/5 (2,400+ reviews)", title: "4.9/5 from 2,400+ reviews", fillStar: true },
+  { icon: BadgeCheck, label: "BBB A+ Accredited", title: "BBB Accredited A+ Rated" },
+  { icon: CreditCard, label: "Secure Payment", sub: "PayPal · Stripe", title: "Secure payment via PayPal and Stripe" },
+];
 
 export function HeroSection() {
   return (
@@ -16,6 +25,28 @@ export function HeroSection() {
         <div className="grid min-h-screen items-center gap-8 py-12 sm:gap-10 sm:py-14 md:grid-cols-2 md:gap-12 md:py-16 lg:gap-16">
           {/* Left column */}
           <div className="flex flex-col">
+            {/* Trust bar — above the fold */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="trust-bar mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-gray-200 bg-white/80 px-3 py-2.5 text-xs shadow-sm backdrop-blur-sm sm:gap-x-4 sm:px-4 sm:text-sm"
+              role="list"
+              aria-label="Trust and security badges"
+            >
+              {HERO_TRUST_BADGES.map((badge, i) => (
+                <span key={badge.label} className="flex items-center gap-1.5" role="listitem">
+                  {i > 0 && <span className="hidden text-gray-300 sm:inline" aria-hidden>|</span>}
+                  {badge.fillStar ? (
+                    <Star className="h-4 w-4 shrink-0 fill-amber-400 text-amber-400" />
+                  ) : (
+                    <badge.icon className="h-4 w-4 shrink-0 text-[#0F4C81]" />
+                  )}
+                  <span className="font-medium text-gray-700" title={badge.title}>{badge.label}</span>
+                  {badge.sub && <span className="text-gray-500">({badge.sub})</span>}
+                </span>
+              ))}
+            </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -101,6 +132,7 @@ export function HeroSection() {
               <CircleDollarSign className="h-3.5 w-3.5 text-[#10B981]" />
               No credit card required to start
             </p>
+            <CostUrgency variant="compact" />
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}

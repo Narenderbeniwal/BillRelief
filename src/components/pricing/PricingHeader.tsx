@@ -32,7 +32,7 @@ export function PricingHeader({ showMonthlyToggle = true }: { showMonthlyToggle?
         Transparent fees, clear scope, and secure checkout - so you know exactly what to expect.
       </p>
       <p className="mx-auto mt-4 max-w-xl text-sm italic text-gray-600">
-        &quot;Finally, someone who helped with my $8K bill. Got 58% off in 5 days.&quot; — Marcus T.
+        &quot;BillRelief got my $8,500 surgery bill down to $3,400 in 5 days.&quot; — Marcus Thompson, Dallas
       </p>
       <Link
         href="/#testimonials"
