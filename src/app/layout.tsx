@@ -37,9 +37,7 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
-  alternates: {
-    canonical: SITE_URL,
-  },
+  // Do not set canonical here — each page sets its own so crawlers index the correct URL
   keywords: ["medical bill reduction", "negotiate medical bills", "medical bill help", "lower hospital bills", "bill relief", "healthcare costs"],
 };
 

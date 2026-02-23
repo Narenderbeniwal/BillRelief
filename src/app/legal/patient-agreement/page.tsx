@@ -1,4 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { SITE_URL } from "@/lib/siteConfig";
+
+export const metadata: Metadata = {
+  title: "Patient Agreement | BillRelief",
+  description:
+    "BillRelief patient agreement: terms for medical bill negotiation services, fees, and representation.",
+  openGraph: {
+    title: "Patient Agreement — BillRelief",
+    url: `${SITE_URL}/legal/patient-agreement`,
+  },
+  alternates: { canonical: `${SITE_URL}/legal/patient-agreement` },
+  robots: { index: true, follow: true },
+};
 
 export default function PatientAgreementPage() {
   return (

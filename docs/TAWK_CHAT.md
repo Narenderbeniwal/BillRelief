@@ -15,6 +15,8 @@ Human-first live chat is wired into the site via **Tawk.to** (free, HIPAA-safe: 
 
 3. **Canned responses:** Copy-paste from **`docs/TAWK_CANNED_RESPONSES.md`** into the Tawk.to dashboard (shortcuts like `/pricing`, `/process`, etc.).
 
+4. **Smart replies (Shortcuts, Triggers, Chatbot):** Full step-by-step with 10 shortcuts and 4 triggers in **`docs/TAWK_SMART_REPLIES.md`**.
+
 ## Behavior
 
 - **Widget:** Renders on all pages when both env vars are set; loads with `lazyOnload` so it doesn’t block the page.

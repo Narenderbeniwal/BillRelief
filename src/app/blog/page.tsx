@@ -1,9 +1,24 @@
+import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 import { SiteHeader } from "@/components/landing/SiteHeader";
 import { SiteFooter } from "@/components/landing/SiteFooter";
 import { BlogListingClient } from "@/components/blog-platform/BlogListingClient";
+import { SITE_URL } from "@/lib/siteConfig";
+
+export const metadata: Metadata = {
+  title: "Blog | Medical Bill Tips, Insurance & Savings — BillRelief",
+  description:
+    "Tips on reducing medical bills, understanding health insurance, and negotiating with providers. BillRelief blog.",
+  openGraph: {
+    title: "Blog — BillRelief",
+    description: "Medical bill tips, insurance, and savings advice.",
+    url: `${SITE_URL}/blog`,
+  },
+  alternates: { canonical: `${SITE_URL}/blog` },
+  robots: { index: true, follow: true },
+};
 
 const CATEGORIES = [
   "Personal Finance",

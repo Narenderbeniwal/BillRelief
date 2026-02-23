@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 import { SiteHeader } from "@/components/landing/SiteHeader";
 import { SiteFooter } from "@/components/landing/SiteFooter";
 import { BlogListingClient } from "@/components/blog-platform/BlogListingClient";
+import { SITE_URL } from "@/lib/siteConfig";
 
 const CATEGORIES = [
   "Personal Finance",
@@ -12,12 +14,33 @@ const CATEGORIES = [
   "Reduce Medical Bills",
 ];
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}): Promise<Metadata> {
+  const { category } = await params;
+  const decoded = decodeURIComponent(category);
+  const canonicalPath = `/blog/category/${encodeURIComponent(decoded)}`;
+  return {
+    title: `${decoded} | Blog — BillRelief`,
+    description: `Articles about ${decoded}. Medical bill tips and savings from BillRelief.`,
+    openGraph: {
+      title: `${decoded} — BillRelief Blog`,
+      url: `${SITE_URL}${canonicalPath}`,
+    },
+    alternates: { canonical: `${SITE_URL}${canonicalPath}` },
+    robots: { index: true, follow: true },
+  };
+}
+
 export default async function BlogCategoryPage({
   params,
 }: {
-  params: { category: string };
+  params: Promise<{ category: string }>;
 }) {
-  const category = decodeURIComponent(params.category);
+  const { category: categoryParam } = await params;
+  const category = decodeURIComponent(categoryParam);
   const session = await getServerSession(authOptions);
   const posts = await prisma.blogPost.findMany({
     where: { published: true, category },

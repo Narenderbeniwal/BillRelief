@@ -46,6 +46,7 @@ In Tawk.to dashboard → **Administration** → **Chat Widget**:
 
 - [ ] In Tawk.to: **Canned Responses** (or **Shortcuts**)
 - [ ] Create each response from `docs/TAWK_CANNED_RESPONSES.md` (Pricing, Process, Guarantee, Bill types, Security, Timeline, Human handoff, Objections)
+- [ ] Or follow the full guide: **`docs/TAWK_SMART_REPLIES.md`** (10 shortcuts with copy-paste text, 4 triggers, optional chatbot)
 - [ ] Assign shortcuts: `/pricing`, `/process`, `/guarantee`, `/billtypes`, `/security`, `/timeline`, `/human`, `/objection-fee`, `/objection-diy`, `/objection-trust`
 
 ---

@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { FAQSchema } from "@/components/seo/StructuredData";
 import { HOMEPAGE_FAQS } from "@/lib/faqData";
+import { SITE_URL } from "@/lib/siteConfig";
+
+export const metadata: Metadata = {
+  alternates: { canonical: SITE_URL },
+};
 import { HeroSection } from "@/components/landing/HeroSection";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { WhyCompetitorsFail } from "@/components/landing/WhyCompetitorsFail";

@@ -1,5 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { SITE_URL } from "@/lib/siteConfig";
+
+export const metadata: Metadata = {
+  title: "Blog | Medical Bill Tips & Savings — BillRelief",
+  description:
+    "Articles on negotiating medical bills, understanding charges, and getting the most out of BillRelief.",
+  openGraph: {
+    title: "Blog — BillRelief",
+    url: `${SITE_URL}/blogs`,
+  },
+  alternates: { canonical: `${SITE_URL}/blogs` },
+  robots: { index: true, follow: true },
+};
 
 export const dynamic = "force-dynamic";
 
