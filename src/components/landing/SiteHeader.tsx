@@ -7,9 +7,9 @@ import { ShieldCheck, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const NAV_LINKS = [
-  { href: "#why-competitors-fail", label: "Why Competitors Fail" },
-  { href: "#difference", label: "Our Difference" },
-  { href: "#how-it-works", label: "How It Works" },
+  { href: "/#why-competitors-fail", label: "Why Competitors Fail" },
+  { href: "/#difference", label: "Our Difference" },
+  { href: "/#how-it-works", label: "How It Works" },
   { href: "/pricing", label: "Pricing" },
   { href: "/case-studies", label: "Case Studies" },
   { href: "/blog", label: "Blog" },
@@ -43,9 +43,9 @@ export function SiteHeader() {
 
         {/* Desktop / tablet landscape nav (lg = 1024px+: full nav; tablet/mobile use menu) */}
         <nav className="hidden items-center gap-2 lg:flex lg:gap-4">
-          <Link href="#why-competitors-fail" className="text-sm font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">Why Competitors Fail</Link>
-          <Link href="#difference" className="text-sm font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">Our Difference</Link>
-          <Link href="#how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">How It Works</Link>
+          <Link href="/#why-competitors-fail" className="text-sm font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">Why Competitors Fail</Link>
+          <Link href="/#difference" className="text-sm font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">Our Difference</Link>
+          <Link href="/#how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">How It Works</Link>
           <Link href="/pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">Pricing</Link>
           <Link href="/case-studies" className="text-sm font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">Case Studies</Link>
           <Link href="/blog" className="text-sm font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">Blog</Link>

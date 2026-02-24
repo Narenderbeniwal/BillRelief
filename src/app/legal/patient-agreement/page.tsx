@@ -33,10 +33,10 @@ export default function PatientAgreementPage() {
           tier).
         </p>
         <Link
-          href="/onboarding"
+          href="/"
           className="inline-block mt-6 text-primary font-medium hover:underline"
         >
-          ← Back to onboarding
+          ← Back to home
         </Link>
       </article>
     </div>

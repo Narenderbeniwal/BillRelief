@@ -111,7 +111,7 @@ export function EnhancedHero() {
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-300 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
               <Link
-                href="#how-it-works"
+                href="/#how-it-works"
                 className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold text-lg rounded-xl border-2 border-white/30 hover:bg-white/20 transition-all inline-flex items-center justify-center"
               >
                 See How It Works

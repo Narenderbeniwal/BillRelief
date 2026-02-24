@@ -92,7 +92,7 @@ export function WhyCompetitorsFail() {
                 ))}
               </ul>
               <Link
-                href="#difference"
+                href="/#difference"
                 className="mt-4 inline-block text-xs font-medium text-[#0F4C81] hover:underline"
               >
                 See full comparison →
@@ -110,7 +110,7 @@ export function WhyCompetitorsFail() {
             We Built BillRelief to Fix ALL of These Problems
           </p>
           <Button asChild variant="yellow" size="lg" className="font-bold">
-            <Link href="#difference">See How We&apos;re Different →</Link>
+            <Link href="/#difference">See How We&apos;re Different →</Link>
           </Button>
         </motion.div>
       </div>

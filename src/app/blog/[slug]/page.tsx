@@ -1,9 +1,38 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { SiteHeader } from "@/components/landing/SiteHeader";
 import { SiteFooter } from "@/components/landing/SiteFooter";
 import { BlogPostContent } from "@/components/blog-platform/BlogPostContent";
+import { SITE_URL } from "@/lib/siteConfig";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const post = await prisma.blogPost.findUnique({
+    where: { slug: params.slug },
+    select: { title: true, subtitle: true, excerpt: true, published: true },
+  });
+  if (!post || !post.published) return { title: "Not found" };
+  const description =
+    post.excerpt?.slice(0, 160) ||
+    post.subtitle?.slice(0, 160) ||
+    `${post.title} — BillRelief blog`;
+  return {
+    title: `${post.title} | Blog — BillRelief`,
+    description,
+    openGraph: {
+      title: post.title,
+      description,
+      url: `${SITE_URL}/blog/${encodeURIComponent(params.slug)}`,
+    },
+    alternates: { canonical: `${SITE_URL}/blog/${encodeURIComponent(params.slug)}` },
+    robots: { index: true, follow: true },
+  };
+}
 
 export default async function BlogPostPage({
   params,

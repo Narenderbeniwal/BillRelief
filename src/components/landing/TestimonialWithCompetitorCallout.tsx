@@ -91,7 +91,7 @@ export function TestimonialWithCompetitorCallout() {
                     <Star className="h-3.5 w-3.5 fill-current" /> 5/5
                   </span>
                   <a
-                    href="#testimonials"
+                    href="/#testimonials"
                     className="inline-flex items-center gap-1 text-xs font-medium text-[#0F4C81] hover:underline"
                   >
                     View on Google Reviews

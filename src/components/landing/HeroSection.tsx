@@ -111,7 +111,7 @@ export function HeroSection() {
                 <Link href="/pricing">See Plans & Pricing</Link>
               </Button>
               <Link
-                href="#how-it-works"
+                href="/#how-it-works"
                 className="inline-flex items-center gap-1 text-sm font-medium text-[#0F4C81] hover:underline"
               >
                 How it works
