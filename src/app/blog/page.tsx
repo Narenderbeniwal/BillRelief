@@ -28,33 +28,46 @@ const CATEGORIES = [
 ];
 
 export default async function BlogPage() {
-  const session = await getServerSession(authOptions);
-  const [featured, posts] = await Promise.all([
-    prisma.blogPost.findFirst({
-      where: { published: true },
-      orderBy: { createdAt: "desc" },
-      include: {
-        author: { select: { name: true } },
-      },
-    }),
-    prisma.blogPost.findMany({
-      where: { published: true },
-      orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        title: true,
-        subtitle: true,
-        slug: true,
-        excerpt: true,
-        featuredImage: true,
-        coverImage: true,
-        category: true,
-        readTime: true,
-        publishedAt: true,
-        author: { select: { name: true } },
-      },
-    }),
-  ]);
+  let session = null;
+  let featured: Awaited<ReturnType<typeof prisma.blogPost.findFirst>> = null;
+  let posts: Awaited<ReturnType<typeof prisma.blogPost.findMany>> = [];
+
+  try {
+    session = await getServerSession(authOptions);
+    const [featuredResult, postsResult] = await Promise.all([
+      prisma.blogPost.findFirst({
+        where: { published: true },
+        orderBy: { createdAt: "desc" },
+        include: {
+          author: { select: { name: true } },
+        },
+      }),
+      prisma.blogPost.findMany({
+        where: { published: true },
+        orderBy: { createdAt: "desc" },
+        select: {
+          id: true,
+          title: true,
+          subtitle: true,
+          slug: true,
+          excerpt: true,
+          featuredImage: true,
+          coverImage: true,
+          category: true,
+          readTime: true,
+          publishedAt: true,
+          author: { select: { name: true } },
+        },
+      }),
+    ]);
+    featured = featuredResult;
+    posts = postsResult;
+  } catch (_err) {
+    // Avoid 500 when DB/session fails (e.g. connection issue) so Google clicks get 200
+    session = null;
+    featured = null;
+    posts = [];
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F5F1E8]">
