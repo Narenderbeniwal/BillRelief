@@ -27,10 +27,28 @@ const CATEGORIES = [
   "Reduce Medical Bills",
 ];
 
+type BlogListingPost = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string | null;
+  excerpt: string | null;
+  featuredImage: string | null;
+  coverImage: string | null;
+  category: string;
+  readTime: number | null;
+  publishedAt: Date | null;
+  author: { name: string | null };
+};
+
 export default async function BlogPage() {
-  let session = null;
-  let featured: Awaited<ReturnType<typeof prisma.blogPost.findFirst>> = null;
-  let posts: Awaited<ReturnType<typeof prisma.blogPost.findMany>> = [];
+  let session: Awaited<ReturnType<typeof getServerSession>> = null;
+  let featured: Awaited<ReturnType<typeof prisma.blogPost.findFirst<{
+    where: { published: true };
+    orderBy: { createdAt: "desc" };
+    include: { author: { select: { name: true } } };
+  }>>> = null;
+  let posts: BlogListingPost[] = [];
 
   try {
     session = await getServerSession(authOptions);
