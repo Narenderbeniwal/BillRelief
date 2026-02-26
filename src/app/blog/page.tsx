@@ -27,65 +27,34 @@ const CATEGORIES = [
   "Reduce Medical Bills",
 ];
 
-type BlogListingPost = {
-  id: string;
-  slug: string;
-  title: string;
-  subtitle: string | null;
-  excerpt: string | null;
-  featuredImage: string | null;
-  coverImage: string | null;
-  category: string;
-  readTime: number | null;
-  publishedAt: Date | null;
-  author: { name: string | null };
-};
-
 export default async function BlogPage() {
-  let session: Awaited<ReturnType<typeof getServerSession>> = null;
-  let featured: Awaited<ReturnType<typeof prisma.blogPost.findFirst<{
-    where: { published: true };
-    orderBy: { createdAt: "desc" };
-    include: { author: { select: { name: true } } };
-  }>>> = null;
-  let posts: BlogListingPost[] = [];
-
-  try {
-    session = await getServerSession(authOptions);
-    const [featuredResult, postsResult] = await Promise.all([
-      prisma.blogPost.findFirst({
-        where: { published: true },
-        orderBy: { createdAt: "desc" },
-        include: {
-          author: { select: { name: true } },
-        },
-      }),
-      prisma.blogPost.findMany({
-        where: { published: true },
-        orderBy: { createdAt: "desc" },
-        select: {
-          id: true,
-          title: true,
-          subtitle: true,
-          slug: true,
-          excerpt: true,
-          featuredImage: true,
-          coverImage: true,
-          category: true,
-          readTime: true,
-          publishedAt: true,
-          author: { select: { name: true } },
-        },
-      }),
-    ]);
-    featured = featuredResult;
-    posts = postsResult;
-  } catch (_err) {
-    // Avoid 500 when DB/session fails (e.g. connection issue) so Google clicks get 200
-    session = null;
-    featured = null;
-    posts = [];
-  }
+  const session = await getServerSession(authOptions);
+  const [featured, posts] = await Promise.all([
+    prisma.blogPost.findFirst({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
+      include: {
+        author: { select: { name: true } },
+      },
+    }),
+    prisma.blogPost.findMany({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        title: true,
+        subtitle: true,
+        slug: true,
+        excerpt: true,
+        featuredImage: true,
+        coverImage: true,
+        category: true,
+        readTime: true,
+        publishedAt: true,
+        author: { select: { name: true } },
+      },
+    }),
+  ]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F5F1E8]">
