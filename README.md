@@ -1,122 +1,178 @@
-# BillRelief.com
+# BillRelief
 
-Production-ready medical bill analysis platform based on the BillRelief HLD and Enhanced UI design documents. Built with Next.js 14 (App Router), TypeScript, Prisma, NextAuth, and Tailwind CSS.
+**Lower medical bills in 48 hours.** AI-powered bill analysis, error detection, and negotiation—no savings, no fee. Production-ready platform for [BillReliefAI](https://www.billreliefai.com).
+
+---
 
 ## Features
 
-- **Landing page**: Hero with animated savings counter, AI badge, how-it-works section
-- **Qualification quiz**: Multi-step flow with progress and estimated savings
-- **Auth**: Email/password sign-up and login (NextAuth, 15-min session for HIPAA guidance)
-- **Dashboard**: List of uploaded bills, status, and estimated savings
-- **Bill upload**: PDF/JPG/PNG upload with validation (max 10MB)
-- **Bill detail**: Line items, error detection placeholder, AI analysis status
-- **Database**: PostgreSQL schema per HLD (users, medical_bills, bill_line_items, ai_analysis_results, negotiation_cases, payments)
-- **API**: RESTful routes for auth and bills; ready for AI pipeline integration
+| Area | Description |
+|------|-------------|
+| **Landing** | Hero with savings counter, trust badges, how-it-works, testimonials, FAQ, exit-intent popup |
+| **Get started** | Multi-step qualification quiz with progress and estimated savings |
+| **Auth** | Email/password sign-up and login (NextAuth, session timeout aligned with HIPAA guidance) |
+| **Dashboard** | Uploaded bills, status, estimated savings; bill detail with line items and AI analysis status |
+| **Bill upload** | PDF/JPG/PNG up to 10MB; local disk or **Azure Blob Storage** |
+| **Blog** | Listing, categories, single post, author dashboard, comments; TipTap editor, AI readability |
+| **Pricing** | Plans, sticky CTA; **PayPal** checkout for one-time and subscription |
+| **Legal** | Patient agreement, privacy, HIPAA & security |
+| **Live chat** | **Tawk.to** widget (shortcuts, triggers, optional chatbot) |
+| **SEO** | Sitemap, robots, metadata, canonicals, structured data (Organization, WebSite, FAQ, Article) |
+
+---
 
 ## Tech stack
 
-| Layer      | Technology        |
-|-----------|-------------------|
-| Frontend  | Next.js 14, React 18, TypeScript, Tailwind, shadcn-style UI, Framer Motion, TanStack Query |
-| Backend   | Next.js API routes, NextAuth, Prisma |
-| Database  | PostgreSQL (Prisma ORM) |
-| Auth      | NextAuth (credentials), bcrypt |
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, shadcn-style UI, Framer Motion, TanStack Query |
+| **Backend** | Next.js API routes, NextAuth, Prisma ORM |
+| **Database** | PostgreSQL (Neon-friendly: pooled + direct URLs) |
+| **Auth** | NextAuth (credentials), bcrypt |
+| **Payments** | PayPal (React SDK + server API); Stripe (SDK present for future use) |
+| **Storage** | Local uploads or Azure Blob Storage |
+| **AI** | Anthropic (blog readability); pipeline-ready for bill analysis |
+| **Chat** | Tawk.to (live chat, canned responses, triggers) |
 
-## Getting started
+---
 
-### Prerequisites
+## Prerequisites
 
-- Node.js 20.x
-- PostgreSQL 15 (or compatible)
-- npm or pnpm
+- **Node.js** 20.x
+- **PostgreSQL** 15+ (or [Neon](https://neon.tech))
+- **npm** or pnpm
 
-### Setup
+---
 
-1. **Clone and install**
+## Quick start
 
-   ```bash
-   cd Project
-   npm install
-   ```
+### 1. Clone and install
 
-2. **Environment**
+```bash
+git clone <repo-url>
+cd BillRelief
+npm install
+```
 
-   Copy `.env.example` to `.env` and set:
+### 2. Environment
 
-   - `DATABASE_URL`: PostgreSQL connection string (e.g. `postgresql://user:pass@localhost:5432/billrelief`)
-   - `NEXTAUTH_URL`: App URL (e.g. `http://localhost:3000`)
-   - `NEXTAUTH_SECRET`: Random secret (e.g. `openssl rand -base64 32`)
+Copy `.env.example` to `.env` (or `.env.local`) and set at least:
 
-3. **Database**
+```bash
+cp .env.example .env
+```
 
-   ```bash
-   npm run db:push
-   npm run db:generate
-   ```
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | Yes | PostgreSQL connection (use **pooled** URL for Neon) |
+| `DIRECT_URL` | Yes (Prisma) | Direct DB URL (for migrations; use non-pooled for Neon) |
+| `NEXTAUTH_URL` | Yes | App URL, e.g. `http://localhost:3000` |
+| `NEXTAUTH_SECRET` | Yes | e.g. `openssl rand -base64 32` |
+| `PAYPAL_CLIENT_ID` / `PAYPAL_CLIENT_SECRET` | For payments | [developer.paypal.com](https://developer.paypal.com) |
+| `NEXT_PUBLIC_PAYPAL_CLIENT_ID` / `NEXT_PUBLIC_PAYPAL_MODE` | For payments | Same app; `sandbox` or `live` |
+| `NEXT_PUBLIC_TAWK_PROPERTY_ID` / `NEXT_PUBLIC_TAWK_WIDGET_ID` | For chat | Tawk.to dashboard → Administration |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional | Google Search Console verification |
+| `ANTHROPIC_API_KEY` | Optional | Blog AI readability |
+| `AZURE_STORAGE_CONNECTION_STRING` | Optional | Bill uploads to Azure Blob instead of local |
+| `AZURE_STORAGE_CONTAINER_NAME` | Optional | Default: `bill-uploads` |
 
-4. **Run**
+### 3. Database
 
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run db:generate
+npm run db:push
+```
 
-   Open [http://localhost:3000](http://localhost:3000).
+For migrations instead: `npm run db:migrate`.
 
-### Scripts
+### 4. Run
 
-- `npm run dev` — Start dev server
-- `npm run build` — Production build
-- `npm run start` — Start production server
-- `npm run lint` — Run ESLint
-- `npm run db:generate` — Generate Prisma client
-- `npm run db:push` — Push schema to DB (no migrations)
-- `npm run db:migrate` — Run migrations
-- `npm run db:studio` — Open Prisma Studio
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+---
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run start` | Start production server |
+| `npm run lint` | ESLint |
+| `npm run db:generate` | Generate Prisma client |
+| `npm run db:push` | Push schema to DB (no migration files) |
+| `npm run db:migrate` | Run Prisma migrations |
+| `npm run db:studio` | Open Prisma Studio |
+
+---
 
 ## Project structure
 
 ```
-src/
-├── app/
-│   ├── api/
-│   │   ├── auth/          # NextAuth + register
-│   │   └── bills/         # Bills CRUD
-│   ├── dashboard/         # Protected dashboard, upload, bill detail
-│   ├── get-started/       # Qualification quiz
-│   ├── login/             # Login page
-│   ├── register/          # Register page
-│   ├── layout.tsx
-│   ├── page.tsx           # Landing
-│   ├── providers.tsx
-│   └── globals.css
-├── components/
-│   ├── dashboard/         # DashboardNav, BillUploadForm, BillDetailClient, etc.
-│   ├── get-started/       # QualificationQuiz
-│   ├── landing/           # EnhancedHero, HowItWorks, SiteHeader
-│   └── ui/                # Button, Card, Input, Label, Progress
-├── lib/
-│   ├── auth.ts            # NextAuth config
-│   ├── prisma.ts         # Prisma client
-│   └── utils.ts
-├── types/
-│   └── next-auth.d.ts
-└── middleware.ts         # Protect /dashboard
-prisma/
-└── schema.prisma         # HLD schema
+BillRelief/
+├── prisma/
+│   └── schema.prisma          # DB schema (users, medical_bills, blog_posts, etc.)
+├── src/
+│   ├── app/
+│   │   ├── api/                # Auth, bills, blogs, PayPal, AI, email-capture
+│   │   ├── blog/               # Blog listing, [slug], category/[category]
+│   │   ├── blogs/              # Alternate blog listing and [slug]
+│   │   ├── dashboard/          # Dashboard, bills/[id], upload
+│   │   ├── get-started/        # Qualification quiz
+│   │   ├── legal/              # patient-agreement
+│   │   ├── pricing/            # Pricing page
+│   │   ├── checkout/           # PayPal checkout
+│   │   ├── login, register, onboarding
+│   │   ├── layout.tsx, page.tsx, providers.tsx
+│   │   ├── sitemap.ts, robots.ts, not-found.tsx
+│   │   └── globals.css
+│   ├── components/
+│   │   ├── chat/               # TawkToWidget
+│   │   ├── dashboard/          # DashboardNav, BillUploadForm, BillDetailClient
+│   │   ├── get-started/        # QualificationQuiz
+│   │   ├── landing/            # HeroSection, SiteHeader, SiteFooter, etc.
+│   │   ├── blog-platform/      # BlogListingClient, BlogPostContent
+│   │   ├── pricing/            # Pricing components
+│   │   ├── seo/                # StructuredData (Organization, FAQ, Article)
+│   │   └── ui/                # Button, Card, Input, etc.
+│   ├── lib/
+│   │   ├── auth.ts             # NextAuth config
+│   │   ├── prisma.ts           # Prisma client
+│   │   ├── siteConfig.ts       # SITE_URL, CONTACT_EMAIL, etc.
+│   │   ├── azure-blob.ts       # Blob uploads
+│   │   ├── paypal.ts
+│   │   └── googleIndexing.ts
+│   └── middleware.ts           # Auth protection, canonical redirect (www)
+├── docs/                       # TAWK_CHAT, TAWK_SETUP_CHECKLIST, HIPAA_CHECKLIST, etc.
+├── .env.example
+└── README.md
 ```
 
-## Design alignment
+---
 
-- **HLD**: Microservices-ready structure, API-first, PostgreSQL + Prisma schema, HIPAA-oriented session timeout, bill pipeline stages (upload → OCR → extraction → error detection → negotiation → report).
-- **UI design**: Hero with 48-hour badge, animated counter, savings calculator block, multi-step quiz with progress, how-it-works, trust badges (HIPAA, rating).
+## Documentation
 
-## Next steps for production
+| Doc | Purpose |
+|-----|---------|
+| [docs/TAWK_CHAT.md](docs/TAWK_CHAT.md) | Tawk.to live chat overview and env vars |
+| [docs/TAWK_SETUP_CHECKLIST.md](docs/TAWK_SETUP_CHECKLIST.md) | Chat widget and shortcuts setup |
+| [docs/TAWK_SMART_REPLIES.md](docs/TAWK_SMART_REPLIES.md) | Shortcuts, triggers, chatbot (copy-paste templates) |
+| [docs/TAWK_CANNED_RESPONSES.md](docs/TAWK_CANNED_RESPONSES.md) | Canned response text for dashboard |
+| [docs/HIPAA_CHECKLIST.md](docs/HIPAA_CHECKLIST.md) | HIPAA-oriented checklist |
 
-1. **File storage**: Replace placeholder `fileUrl` with S3/R2 upload (presigned URL or server upload), encryption at rest.
-2. **AI pipeline**: Integrate OCR (e.g. Tesseract or Google Vision), then LLM (Claude/GPT) for extraction and error detection; run in a queue/worker.
-3. **Stripe**: Add subscription and success-fee payment flows.
-4. **Notifications**: Email/SMS for status updates.
-5. **Monitoring**: Logging, error tracking, and metrics per HLD.
+---
+
+## Design and production
+
+- **HLD alignment**: API-first, PostgreSQL + Prisma, HIPAA-oriented session timeout, bill pipeline (upload → analysis → negotiation → report).
+- **UI**: Hero with 48-hour badge, animated counter, how-it-works, trust badges (HIPAA, ratings).
+- **Production**: Configure PayPal (live mode), Azure Blob (or S3/R2) for uploads, Stripe when adding subscriptions, monitoring and error tracking.
+
+---
 
 ## License
 
