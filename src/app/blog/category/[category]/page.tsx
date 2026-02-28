@@ -12,7 +12,14 @@ const CATEGORIES = [
   "Company News",
   "Health Insurance",
   "Reduce Medical Bills",
-];
+] as const;
+
+/** Normalize param to a known category so canonical URL matches sitemap (same encoding). */
+function normalizeCategory(param: string): string {
+  const decoded = decodeURIComponent(param.replace(/\+/g, " "));
+  const match = CATEGORIES.find((c) => c === decoded);
+  return match ?? decoded;
+}
 
 export async function generateMetadata({
   params,
@@ -20,16 +27,18 @@ export async function generateMetadata({
   params: Promise<{ category: string }>;
 }): Promise<Metadata> {
   const { category } = await params;
-  const decoded = decodeURIComponent(category);
-  const canonicalPath = `/blog/category/${encodeURIComponent(decoded)}`;
+  const normalized = normalizeCategory(category);
+  // Use same encoding as sitemap so canonical is self-referencing and indexable
+  const canonicalPath = `/blog/category/${encodeURIComponent(normalized)}`;
+  const canonicalUrl = `${SITE_URL}${canonicalPath}`;
   return {
-    title: `${decoded} | Blog — BillRelief`,
-    description: `Articles about ${decoded}. Medical bill tips and savings from BillRelief.`,
+    title: `${normalized} | Blog — BillRelief`,
+    description: `Articles about ${normalized}. Medical bill tips and savings from BillRelief.`,
     openGraph: {
-      title: `${decoded} — BillRelief Blog`,
-      url: `${SITE_URL}${canonicalPath}`,
+      title: `${normalized} — BillRelief Blog`,
+      url: canonicalUrl,
     },
-    alternates: { canonical: `${SITE_URL}${canonicalPath}` },
+    alternates: { canonical: canonicalUrl },
     robots: { index: true, follow: true },
   };
 }
@@ -40,7 +49,7 @@ export default async function BlogCategoryPage({
   params: Promise<{ category: string }>;
 }) {
   const { category: categoryParam } = await params;
-  const category = decodeURIComponent(categoryParam);
+  const category = normalizeCategory(categoryParam);
   const session = await getServerSession(authOptions);
   const posts = await prisma.blogPost.findMany({
     where: { published: true, category },
