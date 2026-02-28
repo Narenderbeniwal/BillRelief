@@ -12,7 +12,7 @@ const CATEGORIES = [
   "Company News",
   "Health Insurance",
   "Reduce Medical Bills",
-] as const;
+];
 
 /** Normalize param to a known category so canonical URL matches sitemap (same encoding). */
 function normalizeCategory(param: string): string {
