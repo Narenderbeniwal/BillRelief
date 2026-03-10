@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Upload, Loader2 } from "lucide-react";
 
-const ACCEPT = "application/pdf,image/jpeg,image/png,image/jpg";
-const MAX_SIZE_MB = 10;
+const ACCEPT =
+  "application/pdf,image/jpeg,image/png,image/jpg,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+const MAX_SIZE_MB = 20;
 const MAX_BYTES = MAX_SIZE_MB * 1024 * 1024;
 
 export function BillUploadForm() {
@@ -51,15 +52,19 @@ export function BillUploadForm() {
       return;
     }
     const type = f.type.toLowerCase();
-    if (
-      ![
-        "application/pdf",
-        "image/jpeg",
-        "image/png",
-        "image/jpg",
-      ].includes(type)
-    ) {
-      setError("Please upload a PDF or image (JPG, PNG).");
+    const name = f.name.toLowerCase();
+    const allowed = [
+      "application/pdf",
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+    const allowedExts = [".pdf", ".jpg", ".jpeg", ".png", ".doc", ".docx"];
+    const extMatch = allowedExts.some((ext) => name.endsWith(ext));
+    if (!allowed.includes(type) && !extMatch) {
+      setError("Please upload a PDF, image (JPG, PNG), or Word document (DOC, DOCX).");
       setFile(null);
       return;
     }
@@ -87,7 +92,7 @@ export function BillUploadForm() {
         </div>
       )}
       <div className="space-y-2">
-        <Label htmlFor="file">Bill file (PDF, JPG, or PNG)</Label>
+        <Label htmlFor="file">Bill file (PDF, JPG, PNG, DOC, or DOCX)</Label>
         <div className="flex items-center gap-2">
           <Input
             id="file"

@@ -45,7 +45,7 @@ const nextConfig = {
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ["@azure/storage-blob"],
+    serverComponentsExternalPackages: ["@azure/storage-blob", "pdf-parse"],
     serverActions: {
       bodySizeLimit: "10mb",
     },

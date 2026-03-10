@@ -110,3 +110,30 @@ export async function getBlobDownloadUrl(blobPath: string): Promise<string> {
   const separator = url.includes("?") ? "&" : "?";
   return `${url}${separator}${sas}`;
 }
+
+/**
+ * Download a blob's content as a Buffer for server-side processing.
+ * Accepts either "azure:<blobName>" or a raw blob name.
+ */
+export async function downloadBlobBuffer(fileUrl: string): Promise<Buffer> {
+  const conn = process.env.AZURE_STORAGE_CONNECTION_STRING;
+  const containerName = process.env.AZURE_STORAGE_CONTAINER_NAME ?? CONTAINER_NAME;
+  if (!conn?.trim()) {
+    throw new Error("AZURE_STORAGE_CONNECTION_STRING is not set");
+  }
+
+  const blobName = fileUrl.startsWith(BLOB_PREFIX)
+    ? fileUrl.slice(BLOB_PREFIX.length)
+    : fileUrl;
+
+  const client = BlobServiceClient.fromConnectionString(conn);
+  const container = client.getContainerClient(containerName);
+  const blobClient = container.getBlobClient(blobName);
+
+  const response = await blobClient.download(0);
+  const chunks: Buffer[] = [];
+  for await (const chunk of response.readableStreamBody as NodeJS.ReadableStream) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks);
+}

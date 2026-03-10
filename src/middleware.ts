@@ -13,9 +13,12 @@ function isProtectedPath(pathname: string): boolean {
   );
 }
 
-/** Redirect non-www and http to https://www.billreliefai.com */
+/** Redirect non-www and http to https://www.billreliefai.com (skip in dev) */
 function redirectToCanonical(request: NextRequest): NextResponse | null {
   const host = request.headers.get("host") ?? "";
+  if (host.startsWith("localhost") || host.startsWith("127.0.0.1")) {
+    return null;
+  }
   const proto =
     request.headers.get("x-forwarded-proto") ??
     request.nextUrl.protocol.replace(":", "");

@@ -41,10 +41,10 @@ export async function POST(req: Request) {
     );
   }
 
-  const maxBytes = 10 * 1024 * 1024;
+  const maxBytes = 20 * 1024 * 1024;
   if (file.size > maxBytes) {
     return NextResponse.json(
-      { error: "File must be under 10MB" },
+      { error: "File must be under 20MB" },
       { status: 400 }
     );
   }
@@ -84,55 +84,6 @@ export async function POST(req: Request) {
       providerName,
       status: "pending",
     },
-  });
-
-  // Simulate async AI analysis: in production this would trigger a job/queue.
-  // Update status to analyzing then completed with mock data after a delay could be done via a background job.
-  setImmediate(async () => {
-    await prisma.medicalBill.update({
-      where: { id: bill.id },
-      data: { status: "analyzing" },
-    });
-    // Simulate analysis completion after a short delay (e.g. 2s). In production, call AI pipeline.
-    setTimeout(async () => {
-      const totalAmount = 12500;
-      const estimatedSavings = 7750;
-      await prisma.medicalBill.update({
-        where: { id: bill.id },
-        data: {
-          status: "completed",
-          totalAmount,
-          estimatedSavings,
-          analysisCompletedAt: new Date(),
-          billDate: new Date(),
-        },
-      });
-      await prisma.billLineItem.createMany({
-        data: [
-          {
-            billId: bill.id,
-            description: "Emergency room visit",
-            cptCode: "99285",
-            quantity: 1,
-            unitPrice: 2500,
-            totalCharge: 2500,
-            isError: true,
-            errorType: "upcoding",
-            fairPrice: 850,
-            overchargeAmount: 1650,
-          },
-          {
-            billId: bill.id,
-            description: "Lab panel",
-            cptCode: "80053",
-            quantity: 1,
-            unitPrice: 450,
-            totalCharge: 450,
-            isError: false,
-          },
-        ],
-      });
-    }, 2000);
   });
 
   return NextResponse.json(bill);
