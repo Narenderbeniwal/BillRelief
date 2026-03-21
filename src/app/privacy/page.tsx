@@ -34,7 +34,10 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-gray-900 mt-8">2. Information We Collect</h2>
             <ul className="list-disc pl-6 space-y-1">
               <li>
-                <strong>Account and contact:</strong> Email, name, and password when you register.
+                <strong>Account and contact:</strong> Email, name, optional phone, and a
+                secure password hash (we never store your password in plain text). We may
+                store sign-up network metadata (e.g. IP and browser type) for security and
+                fraud prevention.
               </li>
               <li>
                 <strong>Documents you upload:</strong> Medical bills (PDF, images) and related

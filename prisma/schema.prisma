@@ -2,7 +2,8 @@
 // PostgreSQL with Prisma ORM
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -14,12 +15,17 @@ datasource db {
 model User {
   id                String    @id @default(cuid())
   email             String    @unique
+  /// bcrypt hash only — never store plaintext passwords
   passwordHash      String    @map("password_hash")
   name              String?
+  phone             String?   @db.VarChar(32)
   emailVerified     DateTime? @map("email_verified")
   image             String?
   stripeCustomerId   String?   @map("stripe_customer_id")
   subscriptionTier  String?   @map("subscription_tier") // free, basic, premium
+  lastLoginAt       DateTime? @map("last_login_at")
+  registrationIp    String?   @map("registration_ip") @db.VarChar(45)
+  registrationUserAgent String? @map("registration_user_agent") @db.VarChar(512)
   bio               String?   @db.Text
   socialLinks       Json?     @map("social_links")
   createdAt         DateTime  @default(now()) @map("created_at")
@@ -31,6 +37,7 @@ model User {
   payments          Payment[]
   blogPosts         BlogPost[]
   comments          Comment[]
+  supportChatSessions SupportChatSession[]
 }
 
 model Account {
@@ -237,4 +244,31 @@ model Comment {
   @@index([postId])
   @@index([authorId])
   @@map("comments")
+}
+
+/// BillBot support widget — general Q&A only (no PHI in chat)
+model SupportChatSession {
+  id        String   @id @default(cuid())
+  userId    String?  @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  messages  SupportChatMessage[]
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("support_chat_sessions")
+}
+
+model SupportChatMessage {
+  id        String   @id @default(cuid())
+  sessionId String   @map("session_id")
+  role      String   // user | assistant
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+
+  session SupportChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@map("support_chat_messages")
 }

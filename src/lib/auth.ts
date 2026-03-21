@@ -20,12 +20,25 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+        const emailNormalized = credentials.email.trim().toLowerCase();
+        const user = await prisma.user.findFirst({
+          where: {
+            email: { equals: emailNormalized, mode: "insensitive" },
+          },
         });
         if (!user?.passwordHash) return null;
         const valid = await compare(credentials.password, user.passwordHash);
         if (!valid) return null;
+
+        await prisma.user
+          .update({
+            where: { id: user.id },
+            data: { lastLoginAt: new Date() },
+          })
+          .catch(() => {
+            /* don’t block login if audit column write fails */
+          });
+
         return {
           id: user.id,
           email: user.email,

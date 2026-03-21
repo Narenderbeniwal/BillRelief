@@ -13,6 +13,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -23,12 +24,29 @@ export default function RegisterPage() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, name: name || undefined }),
+      body: JSON.stringify({
+        email,
+        password,
+        name: name || undefined,
+        phone: phone || undefined,
+      }),
     });
     const data = await res.json().catch(() => ({}));
     setLoading(false);
     if (!res.ok) {
-      setError(data.error ?? "Registration failed. Please try again.");
+      const fe = data.fieldErrors as Record<string, string[] | undefined> | undefined;
+      const fieldMsg =
+        fe &&
+        Object.entries(fe)
+          .map(([k, v]) => (v?.length ? `${k}: ${v.join(", ")}` : ""))
+          .filter(Boolean)
+          .join(" ");
+      setError(
+        fieldMsg ||
+          (typeof data.error === "string"
+            ? data.error
+            : "Registration failed. Please try again.")
+      );
       return;
     }
     router.push("/login?registered=1");
@@ -59,6 +77,17 @@ export default function RegisterPage() {
                 placeholder="Jane Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone (optional)</Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="+1 555 123 4567"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                autoComplete="tel"
               />
             </div>
             <div className="space-y-2">

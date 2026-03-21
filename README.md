@@ -12,11 +12,11 @@
 | **Get started** | Multi-step qualification quiz with progress and estimated savings |
 | **Auth** | Email/password sign-up and login (NextAuth, session timeout aligned with HIPAA guidance) |
 | **Dashboard** | Uploaded bills, status, estimated savings; bill detail with line items and AI analysis status |
-| **Bill upload** | PDF/JPG/PNG up to 10MB; local disk or **Azure Blob Storage** |
+| **Bill upload** | PDF, images, Word docs; local disk or **Azure Blob Storage** |
 | **Blog** | Listing, categories, single post, author dashboard, comments; TipTap editor, AI readability |
 | **Pricing** | Plans, sticky CTA; **PayPal** checkout for one-time and subscription |
 | **Legal** | Patient agreement, privacy, HIPAA & security |
-| **Live chat** | **Tawk.to** widget (shortcuts, triggers, optional chatbot) |
+| **Site chat** | **BillBot** — custom OpenAI (gpt-4o) assistant; conversations stored in Postgres |
 | **SEO** | Sitemap, robots, metadata, canonicals, structured data (Organization, WebSite, FAQ, Article) |
 
 ---
@@ -31,8 +31,8 @@
 | **Auth** | NextAuth (credentials), bcrypt |
 | **Payments** | PayPal (React SDK + server API); Stripe (SDK present for future use) |
 | **Storage** | Local uploads or Azure Blob Storage |
-| **AI** | Anthropic (blog readability); pipeline-ready for bill analysis |
-| **Chat** | Tawk.to (live chat, canned responses, triggers) |
+| **AI** | OpenAI (bill analysis + BillBot); Anthropic (blog readability) |
+| **Chat** | BillBot widget (`OPENAI_API_KEY`, see [docs/BILLBOT.md](docs/BILLBOT.md)) |
 
 ---
 
@@ -64,13 +64,13 @@ cp .env.example .env
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `DATABASE_URL` | Yes | PostgreSQL connection (use **pooled** URL for Neon) |
-| `DIRECT_URL` | Yes (Prisma) | Direct DB URL (for migrations; use non-pooled for Neon) |
+| `DATABASE_URL` | Yes | PostgreSQL connection (Neon: **pooled** URL with `sslmode=require` & `pgbouncer=true`) |
+| `DIRECT_URL` | Yes (Prisma) | Direct DB URL (for migrations; Neon: host **without** `-pooler`) |
 | `NEXTAUTH_URL` | Yes | App URL, e.g. `http://localhost:3000` |
 | `NEXTAUTH_SECRET` | Yes | e.g. `openssl rand -base64 32` |
 | `PAYPAL_CLIENT_ID` / `PAYPAL_CLIENT_SECRET` | For payments | [developer.paypal.com](https://developer.paypal.com) |
 | `NEXT_PUBLIC_PAYPAL_CLIENT_ID` / `NEXT_PUBLIC_PAYPAL_MODE` | For payments | Same app; `sandbox` or `live` |
-| `NEXT_PUBLIC_TAWK_PROPERTY_ID` / `NEXT_PUBLIC_TAWK_WIDGET_ID` | For chat | Tawk.to dashboard → Administration |
+| `OPENAI_API_KEY` | **Recommended** | Bill analysis + **BillBot** site chat (gpt-4o) |
 | `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional | Google Search Console verification |
 | `ANTHROPIC_API_KEY` | Optional | Blog AI readability |
 | `AZURE_STORAGE_CONNECTION_STRING` | Optional | Bill uploads to Azure Blob instead of local |
@@ -84,6 +84,8 @@ npm run db:push
 ```
 
 For migrations instead: `npm run db:migrate`.
+
+**Connection issues** (BillBot “database unreachable”, Prisma `P1001` / `P1013`, `getaddrinfo`): see **[docs/DATABASE_CONNECTION.md](docs/DATABASE_CONNECTION.md)**. Start with **`npm run db:check-env`**, then `npm run db:ping` / `db:ping:pooled`; if direct fails but pooled works: `db:ping:via-pool` / `db:push:via-pool`.
 
 ### 4. Run
 
@@ -131,7 +133,7 @@ BillRelief/
 │   │   ├── sitemap.ts, robots.ts, not-found.tsx
 │   │   └── globals.css
 │   ├── components/
-│   │   ├── chat/               # TawkToWidget
+│   │   ├── chat/               # BillBotWidget
 │   │   ├── dashboard/          # DashboardNav, BillUploadForm, BillDetailClient
 │   │   ├── get-started/        # QualificationQuiz
 │   │   ├── landing/            # HeroSection, SiteHeader, SiteFooter, etc.
@@ -147,7 +149,7 @@ BillRelief/
 │   │   ├── paypal.ts
 │   │   └── googleIndexing.ts
 │   └── middleware.ts           # Auth protection, canonical redirect (www)
-├── docs/                       # TAWK_CHAT, TAWK_SETUP_CHECKLIST, HIPAA_CHECKLIST, etc.
+├── docs/                       # BILLBOT, HIPAA_CHECKLIST, legacy TAWK_* (optional)
 ├── .env.example
 └── README.md
 ```
@@ -158,10 +160,8 @@ BillRelief/
 
 | Doc | Purpose |
 |-----|---------|
-| [docs/TAWK_CHAT.md](docs/TAWK_CHAT.md) | Tawk.to live chat overview and env vars |
-| [docs/TAWK_SETUP_CHECKLIST.md](docs/TAWK_SETUP_CHECKLIST.md) | Chat widget and shortcuts setup |
-| [docs/TAWK_SMART_REPLIES.md](docs/TAWK_SMART_REPLIES.md) | Shortcuts, triggers, chatbot (copy-paste templates) |
-| [docs/TAWK_CANNED_RESPONSES.md](docs/TAWK_CANNED_RESPONSES.md) | Canned response text for dashboard |
+| [docs/BILLBOT.md](docs/BILLBOT.md) | BillBot custom chat (OpenAI, DB tables, env) |
+| [docs/TAWK_*.md](docs/) | Legacy Tawk.to docs (no longer used in app) |
 | [docs/HIPAA_CHECKLIST.md](docs/HIPAA_CHECKLIST.md) | HIPAA-oriented checklist |
 
 ---

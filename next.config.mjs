@@ -45,7 +45,12 @@ const nextConfig = {
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ["@azure/storage-blob", "pdf-parse"],
+    serverComponentsExternalPackages: [
+      "@azure/storage-blob",
+      "pdf-parse",
+      "@neondatabase/serverless",
+      "ws",
+    ],
     serverActions: {
       bodySizeLimit: "10mb",
     },

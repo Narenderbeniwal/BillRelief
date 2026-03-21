@@ -4,7 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { SITE_URL, SITE_DOMAIN } from "@/lib/siteConfig";
 import { OrganizationSchema, WebSiteSchema, ServiceSchema } from "@/components/seo/StructuredData";
-import { TawkToWidget } from "@/components/chat/TawkToWidget";
+import { BillBotWidget } from "@/components/chat/BillBotWidget";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -55,7 +55,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Providers>{children}</Providers>
-        <TawkToWidget />
+        <BillBotWidget />
       </body>
     </html>
   );

@@ -1,6 +1,8 @@
-# Tawk.to Live Chat – BillReliefAI
+# Tawk.to Live Chat – BillReliefAI (legacy)
 
-Human-first live chat is wired into the site via **Tawk.to** (free, HIPAA-safe: you control data, no PHI to third parties).
+> **Note:** The app now uses **BillBot** (custom OpenAI chat). See [BILLBOT.md](./BILLBOT.md). This document is kept for reference only.
+
+Human-first live chat was previously wired via **Tawk.to** (free, HIPAA-safe: you control data, no PHI to third parties).
 
 ## Quick setup
 
