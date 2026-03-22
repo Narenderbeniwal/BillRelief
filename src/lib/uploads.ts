@@ -4,6 +4,13 @@ import path from "path";
 const UPLOADS_DIR = "uploads";
 
 /**
+ * Local-disk bill storage (when Azure Blob is not configured).
+ * Files live under `uploads/<userId>/` at the project root — not under `public/`.
+ * They must only be read via authenticated routes (e.g. `/api/bills/[id]/file`),
+ * never exposed as static public URLs.
+ */
+
+/**
  * Sanitize filename: remove path traversal and dangerous chars, keep extension.
  */
 function sanitizeFileName(name: string): string {

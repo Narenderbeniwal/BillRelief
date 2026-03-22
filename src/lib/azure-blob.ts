@@ -38,6 +38,11 @@ function sanitizeBlobName(name: string): string {
 /**
  * Upload a file to Azure Blob Storage.
  * Returns a stored fileUrl value to save in DB: "azure:<userId>/<timestamp>-<sanitized>".
+ *
+ * HIPAA / security notes:
+ * - Data in transit: HTTPS to Azure (SDK default).
+ * - Encryption at rest: Azure Storage SSE (Microsoft-managed keys by default; 256-bit AES).
+ * - Access: blobs are private; app issues short-lived SAS only via authenticated API routes.
  */
 export async function uploadToBlob(
   userId: string,
@@ -61,6 +66,9 @@ export async function uploadToBlob(
   const blobClient = container.getBlockBlobClient(blobName);
   await blobClient.uploadData(buffer, {
     blobHTTPHeaders: { blobContentType: file.type || "application/octet-stream" },
+    metadata: {
+      userid: userId.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 256),
+    },
   });
 
   const fileUrl = `${BLOB_PREFIX}${blobName}`;

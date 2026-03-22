@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { saveUploadedFile } from "@/lib/uploads";
+import { logPhiAccess } from "@/lib/auditLog";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -84,6 +85,14 @@ export async function POST(req: Request) {
       providerName,
       status: "pending",
     },
+  });
+
+  await logPhiAccess({
+    userId: session.user.id,
+    action: "bill_upload",
+    resourceType: "MedicalBill",
+    resourceId: bill.id,
+    request: req,
   });
 
   return NextResponse.json(bill);

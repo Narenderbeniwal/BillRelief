@@ -25,7 +25,9 @@ export function ExitIntentPopup() {
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [email, setEmail] = useState("");
+  const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorDetail, setErrorDetail] = useState<string | null>(null);
   const [mobileTimerDone, setMobileTimerDone] = useState(false);
 
   const hide = useCallback(() => {
@@ -80,17 +82,27 @@ export function ExitIntentPopup() {
     e.preventDefault();
     const trimmed = email.trim();
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setErrorDetail(null);
       setStatus("error");
       return;
     }
+    setErrorDetail(null);
     setStatus("loading");
     try {
       const res = await fetch("/api/email-capture", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: trimmed }),
+        body: JSON.stringify({ email: trimmed, website: website || undefined }),
       });
-      if (!res.ok) throw new Error("Failed");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const serverMsg =
+          typeof data.error === "string"
+            ? data.error
+            : "Something went wrong. Please try again.";
+        setErrorDetail(serverMsg);
+        throw new Error(serverMsg);
+      }
       setStatus("success");
       try {
         localStorage.setItem(STORAGE_EMAIL_KEY, trimmed);
@@ -100,6 +112,13 @@ export function ExitIntentPopup() {
       setStatus("error");
     }
   };
+
+  const submitErrorMessage =
+    status === "error" && errorDetail
+      ? errorDetail
+      : status === "error" && email.trim()
+        ? "Something went wrong. Please try again."
+        : "Please enter a valid email.";
 
   return (
     <AnimatePresence>
@@ -136,7 +155,8 @@ export function ExitIntentPopup() {
                   </div>
                   <p className="font-semibold text-gray-900">Check your inbox</p>
                   <p className="mt-1 text-sm text-gray-600">
-                    We sent your free Medical Bill Guide + AI scan link.
+                    Thanks! We&apos;ll email your free guide and AI scan link
+                    shortly. You can also start anytime at billreliefai.com/get-started.
                   </p>
                 </div>
               ) : (
@@ -151,7 +171,17 @@ export function ExitIntentPopup() {
                   <p className="mt-2 text-gray-600">
                     <strong>5 mistakes</strong> that inflate your bill + <strong>free 2‑min AI scan</strong> link. No spam—just the guide and your results.
                   </p>
-                  <form onSubmit={handleSubmit} className="mt-6">
+                  <form onSubmit={handleSubmit} className="relative mt-6">
+                    <input
+                      type="text"
+                      name="website"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                      className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                    />
                     <input
                       type="email"
                       value={email}
@@ -169,7 +199,7 @@ export function ExitIntentPopup() {
                     </button>
                   </form>
                   {status === "error" && (
-                    <p className="mt-2 text-sm text-red-600">Please enter a valid email.</p>
+                    <p className="mt-2 text-sm text-red-600">{submitErrorMessage}</p>
                   )}
                   <p className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-gray-500">
                     <span>✓ No spam</span>

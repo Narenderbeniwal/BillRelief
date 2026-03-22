@@ -25,6 +25,7 @@ export function BillUploadForm() {
       const res = await fetch("/api/bills", {
         method: "POST",
         body: formData,
+        credentials: "include",
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));

@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { logPhiAccess } from "@/lib/auditLog";
 import { downloadBlobBuffer, isBlobFileUrl } from "@/lib/azure-blob";
 import {
   extractBillContent,
@@ -57,6 +58,14 @@ export async function GET(
   if (!bill) {
     return new Response("Not found", { status: 404 });
   }
+
+  await logPhiAccess({
+    userId: session.user.id,
+    action: "bill_view",
+    resourceType: "MedicalBill",
+    resourceId: bill.id,
+    request: req,
+  });
 
   // If already completed, return the cached analysis immediately
   if (bill.status === "completed" && bill.aiAnalysisResults[0]?.analysisJson) {
